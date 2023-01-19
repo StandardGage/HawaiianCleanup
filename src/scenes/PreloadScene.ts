@@ -10,6 +10,7 @@ export default class PreloadScene extends Phaser.Scene {
 		
 		this.load.image('main-bkgrd', '800/800')
         this.load.image('level-select-bkgrd', '800/800')
+        this.load.image('level-button-bkgrd', '200/200')
     }
 
     create() {
