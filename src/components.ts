@@ -75,4 +75,45 @@ export default class components{
 
         return levelButton;
     }
+
+    /**
+     * Draggable block that snaps to grid and other blocks when placed
+     * @param x - Horizontal location
+     * @param y - Vertical location
+     * @param image - Block image
+     * @param scene - current scene (use 'this')
+     * @todo - allow it to snap to other blocks, show when it is picked up, connect to an array when snapped together
+     */
+    static DraggableBlock(x: number, y:number, image: string, scene: Phaser.Scene) {
+        var draggableBlock = scene.add.image(x, y, image);
+        draggableBlock.setInteractive();
+        scene.input.setDraggable(draggableBlock)
+        
+
+        scene.input.on('drag', function (pointer: any, gameObject: { x: number; y: number; }, dragX: number, dragY: number) {
+            gameObject.x = dragX
+            gameObject.y = dragY
+        })
+
+        scene.input.on('pointerup', () => {
+            let snap = 60;
+            let left = Math.floor(draggableBlock.x / snap) * snap
+            let right = Math.ceil(draggableBlock.x / snap) * snap
+            if (draggableBlock.x <= left + (snap/2)) {
+                draggableBlock.x = left
+            } else {
+                draggableBlock.x = right
+            }
+            let up = Math.floor(draggableBlock.y / snap) * snap
+            let down = Math.ceil(draggableBlock.y / snap) * snap
+            if (draggableBlock.y <= up + 16) {
+                draggableBlock.y = up
+            } else {
+                draggableBlock.y = down
+            }
+
+            console.log(draggableBlock.x, draggableBlock.y)
+        })
+
+    }
 }

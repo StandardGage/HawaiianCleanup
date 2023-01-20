@@ -15,7 +15,7 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('level-1-bkgrd', '800/800')
 
         //sprites
-        this.load.image('move-east', '50/50')
+        this.load.image('move-east', '60/60')
 
     }
 
