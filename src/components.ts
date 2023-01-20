@@ -114,6 +114,6 @@ export default class components{
 
             console.log(draggableBlock.x, draggableBlock.y)
         })
-
+        
     }
 }
