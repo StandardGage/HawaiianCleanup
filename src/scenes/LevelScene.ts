@@ -25,7 +25,7 @@ export default class LevelScene extends Phaser.Scene {
 
     var player = this.add.image(32 + 16, 32 + 16, "player");
 
-    //  Left
+    //  Left movement
     this.input.keyboard.on("keydown-A", function (event) {
       var tile = layer.getTileAtWorldXY(player.x - 32, player.y, true);
 
@@ -37,7 +37,7 @@ export default class LevelScene extends Phaser.Scene {
       }
     });
 
-    //  Right
+    //  Right movement
     this.input.keyboard.on("keydown-D", function (event) {
       var tile = layer.getTileAtWorldXY(player.x + 32, player.y, true);
 
@@ -49,7 +49,7 @@ export default class LevelScene extends Phaser.Scene {
       }
     });
 
-    //  Up
+    //  Up movement
     this.input.keyboard.on("keydown-W", function (event) {
       var tile = layer.getTileAtWorldXY(player.x, player.y - 32, true);
 
@@ -61,7 +61,7 @@ export default class LevelScene extends Phaser.Scene {
       }
     });
 
-    //  Down
+    //  Down movement
     this.input.keyboard.on("keydown-S", function (event) {
       var tile = layer.getTileAtWorldXY(player.x, player.y + 32, true);
 
