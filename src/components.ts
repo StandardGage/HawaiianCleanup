@@ -118,6 +118,6 @@ export default class components{
             map.set(image, [draggableBlock.x, draggableBlock.y])
             //console.log(draggableBlock.x, draggableBlock.y)
         })
-
+        
     }
 }
