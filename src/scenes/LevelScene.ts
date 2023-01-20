@@ -1,23 +1,38 @@
+import { GameObjects } from "phaser";
 import components from "../components";
 
 export default class LevelScene extends Phaser.Scene {
   constructor() {
     super({ key: "LevelScene" });
   }
+    //private forward?: Phaser.GameObjects.GameObject;
+    private go?: any
+    private blockMap?: any
+
 
   preload() {
     this.load.image("tiles", "assets/drawtiles-spaced.png");
     this.load.image("player", "move-east");
     this.load.tilemapCSV("map", "assets/grid.csv");
+
+    this.load.image('forward', 'assets/Forward.png')
+    this.load.image('right', 'assets/RightTurn.png')
+    this.load.image('left', 'assets/LeftTurn.png')
+    this.load.image('go', 'assets/GoButton.png')
   }
 
   create() {
     // add background
     this.add.image(400, 400, "level-1-bkgrd");
 
+    //sydney
+    this.blockMap = new Map();
+    this.go = this.add.image(50, 50, 'go').setScale(0.5).setInteractive().on('pointerdown', ()=>this.readBlocks());
+
     // add test draggable blocks
-    components.DraggableBlock(400, 400, "move-east", this);
-    components.DraggableBlock(440, 400, "move-east", this);
+    components.DraggableBlock(200, 400, 'right', this, 0.2, this.blockMap);
+    components.DraggableBlock(300, 400, 'forward', this, 0.05, this.blockMap);
+    components.DraggableBlock(400, 400, 'left', this, 0.2, this.blockMap);
 
     var map = this.make.tilemap({ key: "map", tileWidth: 32, tileHeight: 32 });
     var tileset = map.addTilesetImage("tiles", null, 32, 32, 1, 2);
@@ -74,5 +89,18 @@ export default class LevelScene extends Phaser.Scene {
     });
   }
 
-  update() {}
+  readBlocks(){
+    let sortedArr: Array<any> = [];
+    for(let key of this.blockMap.keys()) {
+        sortedArr.push([this.blockMap.get(key)[0], this.blockMap.get(key)[1], key]) 
+    }
+    //Sorts array based on x position of the blocks. Sorts blocks in ascending order from lowest
+    //x position to highest (from left to right on screen)
+    sortedArr.sort()
+    for(let i = 0; i<sortedArr.length; i++){
+        console.log(sortedArr[i][0]);
+        console.log(sortedArr[i][1]);
+        console.log(sortedArr[i][2]);
+    }
+  }
 }
