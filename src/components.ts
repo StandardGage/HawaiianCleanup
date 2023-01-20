@@ -84,10 +84,13 @@ export default class components{
      * @param scene - current scene (use 'this')
      * @todo - allow it to snap to other blocks, show when it is picked up, connect to an array when snapped together
      */
-    static DraggableBlock(x: number, y:number, image: string, scene: Phaser.Scene) {
+    static DraggableBlock(x: number, y:number, image: string, scene: Phaser.Scene, scale:number, map: Map<any, any>) {
         var draggableBlock = scene.add.image(x, y, image);
         draggableBlock.setInteractive();
-        scene.input.setDraggable(draggableBlock)
+        scene.input.setDraggable(draggableBlock);
+        draggableBlock.setScale(scale);
+        map.set(image, [draggableBlock.x, draggableBlock.y])
+
         
 
         scene.input.on('drag', function (pointer: any, gameObject: { x: number; y: number; }, dragX: number, dragY: number) {
@@ -112,7 +115,8 @@ export default class components{
                 draggableBlock.y = down
             }
 
-            console.log(draggableBlock.x, draggableBlock.y)
+            map.set(image, [draggableBlock.x, draggableBlock.y])
+            //console.log(draggableBlock.x, draggableBlock.y)
         })
 
     }
