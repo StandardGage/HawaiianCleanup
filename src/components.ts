@@ -114,6 +114,12 @@ export default class components{
 
             console.log(draggableBlock.x, draggableBlock.y)
         })
+        
+    }
 
+    static moveableBlock(x: number, y:number, image: string, scene: Phaser.Scene) {
+        var moveableBlock = scene.add.image(x, y, image);
+        moveableBlock.setInteractive();
+        scene.input.setDraggable(moveableBlock)
     }
 }
