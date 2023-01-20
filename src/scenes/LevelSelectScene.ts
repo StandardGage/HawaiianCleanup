@@ -13,7 +13,10 @@ export default class extends Phaser.Scene {
         // add menu button
         components.Button(100, 700, 'Menu', this, 'WelcomeScene')
 
-        components.LevelButton(120, 120, 'Level 1', 'level-button-bkgrd', this)
-        components.LevelButton(340, 120, 'Level 2', 'level-button-bkgrd', this)
+        // add level buttons
+        components.LevelButton(120, 120, 'Level 1', 'level-button-bkgrd', this, 'LevelScene', false)
+        components.LevelButton(340, 120, 'Level 2', 'level-button-bkgrd', this, undefined, false)
+
+        
     }
 }

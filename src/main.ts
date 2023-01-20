@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import LevelScene from './scenes/LevelScene'
 import LevelSelectScene from './scenes/LevelSelectScene'
 
 import PreloadScene from './scenes/PreloadScene'
@@ -16,7 +17,7 @@ const config: Phaser.Types.Core.GameConfig = {
 		width: 800,
 		height: 800,
 	},
-	scene: [PreloadScene, WelcomeScene, LevelSelectScene],
+	scene: [PreloadScene, WelcomeScene, LevelSelectScene, LevelScene],
 }
 
 export default new Phaser.Game(config)
