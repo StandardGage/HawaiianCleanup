@@ -53,7 +53,7 @@ export default class components{
     */
     static LevelButton(x:number, y:number, text:string, image:string, scene: Phaser.Scene, new_scene:string | undefined, isDisabled:boolean | undefined) {
         var levelButton = scene.add.container(x, y)
-        var levelText = scene.add.text(0,0,text,this.style)
+        var levelText = scene.add.text(0,0,text,{ fontFamily: 'Arial', fontSize: '25px', color: '#ffffff', stroke: '#000000', strokeThickness: 5 })
         levelText.setOrigin(0.5,0.5)
         var levelImage = scene.add.image(0,0,image)
         levelButton.add( [levelImage,levelText] )
@@ -96,7 +96,7 @@ export default class components{
         })
 
         scene.input.on('pointerup', () => {
-            let snap = 60;
+            let snap = 25;
             let left = Math.floor(draggableBlock.x / snap) * snap
             let right = Math.ceil(draggableBlock.x / snap) * snap
             if (draggableBlock.x <= left + (snap/2)) {

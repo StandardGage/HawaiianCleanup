@@ -6,16 +6,16 @@ export default class PreloadScene extends Phaser.Scene {
 
     preload() {
         // preload all assets
-        this.load.setBaseURL('https://picsum.photos/')
+        //this.load.setBaseURL('https://picsum.photos/')
 		
         //backgrounds
-		this.load.image('main-bkgrd', '800/800')
-        this.load.image('level-select-bkgrd', '800/800')
-        this.load.image('level-button-bkgrd', '200/200')
+		this.load.image('main-bkgrd', 'assets/menus/oahu.jpg')
+        this.load.image('level-select-bkgrd', 'assets/menus/volcano2.jpg')
+        this.load.image('level-button-bkgrd', 'assets/menus/brick.jpg')
         this.load.image('level-1-bkgrd', '800/800')
 
         //sprites
-        this.load.image('move-east', '60/60')
+        this.load.image('move-east', 'assets/tiles/block.jpg')
 
     }
 
