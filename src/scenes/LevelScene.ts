@@ -1,4 +1,3 @@
-import { GameObjects } from "phaser";
 import components from "../components";
 
 export default class LevelScene extends Phaser.Scene {
@@ -6,14 +5,12 @@ export default class LevelScene extends Phaser.Scene {
   constructor() {
     super({ key: "LevelScene" });
   }
-    //private forward?: Phaser.GameObjects.GameObject;
-    private go?: any
-    private blockMap?: any
+  private blockMap: Map<string, number[]> = new Map();
 
+  tileSize = 32;
 
   preload() {
     this.load.image("tiles", "assets/drawtiles-spaced.png");
-    this.load.image("player", "move-east");
     this.load.tilemapCSV("map", "assets/grid.csv");
 
     this.load.image('forward', 'assets/Forward.png')
@@ -27,23 +24,30 @@ export default class LevelScene extends Phaser.Scene {
     // add background
     this.add.image(400, 400, "level-1-bkgrd");
 
-    //sydney
-    this.blockMap = new Map();
-    this.go = this.add.image(50, 50, 'go').setScale(0.5).setInteractive().on('pointerdown', ()=>this.readBlocks());
+    // setup map with tiles
+    var map = this.make.tilemap({ key: "map", tileWidth: this.tileSize, tileHeight: this.tileSize });
+    var tileset = map.addTilesetImage("tiles", 'tiles', this.tileSize, this.tileSize, 1, 2);
+    var layer = map.createLayer(0, tileset, 0, 0);
+
+    // setup player
+    var player = this.add.image(this.tileSize + (this.tileSize/2), this.tileSize + (this.tileSize/2), "player");
+
+    // add go button
+    var go = this.add.image(50, 50, 'go')
+    go.setDisplaySize(100,100)
+    go.setInteractive().on('pointerdown', ()=>this.readBlocks());
 
     // add test draggable blocks
     components.DraggableBlock(200, 400, 'right', this, 0.2, this.blockMap);
     components.DraggableBlock(300, 400, 'forward', this, 0.05, this.blockMap);
     components.DraggableBlock(400, 400, 'left', this, 0.2, this.blockMap);
 
-    var map = this.make.tilemap({ key: "map", tileWidth: 32, tileHeight: 32 });
-    var tileset = map.addTilesetImage("tiles", null, 32, 32, 1, 2);
-    var layer = map.createLayer(0, tileset, 0, 0);
+    this.setupMovement(player, layer);
+  }
 
-    var player = this.add.image(32 + 16, 32 + 16, "player");
-
+  setupMovement(player: Phaser.GameObjects.Image, layer: Phaser.Tilemaps.TilemapLayer) {
     //  Left movement
-    this.input.keyboard.on("keydown-A", function (event) {
+    this.input.keyboard.on("keydown-A", function () {
       var tile = layer.getTileAtWorldXY(player.x - 32, player.y, true);
 
       if (tile.index === 2) {
@@ -55,7 +59,7 @@ export default class LevelScene extends Phaser.Scene {
     });
 
     //  Right movement
-    this.input.keyboard.on("keydown-D", function (event) {
+    this.input.keyboard.on("keydown-D", function () {
       var tile = layer.getTileAtWorldXY(player.x + 32, player.y, true);
 
       if (tile.index === 2) {
@@ -67,7 +71,7 @@ export default class LevelScene extends Phaser.Scene {
     });
 
     //  Up movement
-    this.input.keyboard.on("keydown-W", function (event) {
+    this.input.keyboard.on("keydown-W", function () {
       var tile = layer.getTileAtWorldXY(player.x, player.y - 32, true);
 
       if (tile.index === 2) {
@@ -79,7 +83,7 @@ export default class LevelScene extends Phaser.Scene {
     });
 
     //  Down movement
-    this.input.keyboard.on("keydown-S", function (event) {
+    this.input.keyboard.on("keydown-S", function () {
       var tile = layer.getTileAtWorldXY(player.x, player.y + 32, true);
 
       if (tile.index === 2) {

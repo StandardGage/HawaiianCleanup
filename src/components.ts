@@ -91,8 +91,6 @@ export default class components{
         draggableBlock.setScale(scale);
         map.set(image, [draggableBlock.x, draggableBlock.y])
 
-        
-
         scene.input.on('drag', function (pointer: any, gameObject: { x: number; y: number; }, dragX: number, dragY: number) {
             gameObject.x = dragX
             gameObject.y = dragY
@@ -116,7 +114,6 @@ export default class components{
             }
 
             map.set(image, [draggableBlock.x, draggableBlock.y])
-            //console.log(draggableBlock.x, draggableBlock.y)
         })
         
     }
