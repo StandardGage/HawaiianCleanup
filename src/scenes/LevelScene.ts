@@ -33,8 +33,8 @@ export default class LevelScene extends Phaser.Scene {
     var player = this.add.image(this.tileSize + (this.tileSize/2), this.tileSize + (this.tileSize/2), "player");
 
     // add go button
-    var go = this.add.image(50, 50, 'go')
-    go.setDisplaySize(100,100)
+    var go = this.add.image(60, 60, 'go')
+    go.setDisplaySize(60,60)
     go.setInteractive().on('pointerdown', ()=>this.readBlocks());
 
     // add test draggable blocks
@@ -96,6 +96,7 @@ export default class LevelScene extends Phaser.Scene {
   }
 
   readBlocks(){
+    console.log(this.blockMap)
     let sortedArr: Array<any> = [];
     for(let key of this.blockMap.keys()) {
         sortedArr.push([this.blockMap.get(key)[0], this.blockMap.get(key)[1], key]) 
