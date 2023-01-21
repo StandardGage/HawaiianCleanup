@@ -2,6 +2,9 @@ import { GameObjects } from "phaser";
 import components from "../components";
 
 export default class LevelScene extends Phaser.Scene {
+    private go?: any
+    private blockMap?: any
+
   constructor() {
     super({ key: "LevelScene" });
   }
@@ -21,7 +24,8 @@ export default class LevelScene extends Phaser.Scene {
     this.load.image('go', 'assets/GoButton.png')
   }
 
-  create() {
+    create() {
+    
     // add background
     this.add.image(400, 400, "level-1-bkgrd");
 
@@ -87,7 +91,18 @@ export default class LevelScene extends Phaser.Scene {
         player.angle = 90;
       }
     });
-  }
+       
+        // add background
+        this.add.image(400, 400, 'level-1-bkgrd')
+
+        this.blockMap = new Map();
+        this.go = this.add.image(50, 50, 'go').setScale(0.5).setInteractive().on('pointerdown', ()=>this.readBlocks());
+
+        // add test draggable blocks
+        components.DraggableBlock(200, 400, 'right', this, 0.2, this.blockMap);
+        components.DraggableBlock(300, 400, 'forward', this, 0.05, this.blockMap);
+        components.DraggableBlock(400, 400, 'left', this, 0.2, this.blockMap);
+    }
 
   readBlocks(){
     let sortedArr: Array<any> = [];
