@@ -78,7 +78,7 @@ export default class LevelScene extends Phaser.Scene {
     components.DraggableBlock(450, 300, 'forward8', this, {width: 60, height: 60}, this.blockMap);
     components.DraggableBlock(510, 300, 'forward9', this, {width: 60, height: 60}, this.blockMap);
     components.DraggableBlock(570, 300, 'forward10', this, {width: 60, height: 60}, this.blockMap);
-    //components.DraggableBlock(400, 400, 'left', this, {width: 60, height: 60}, this.blockMap);
+
     components.DraggableBlock(750, 400, 'down', this, {width: 60, height: 60}, this.blockMap);
 
 
@@ -93,23 +93,23 @@ export default class LevelScene extends Phaser.Scene {
     for(let key of this.blockMap.keys()) {
         sortedArr.push([this.blockMap.get(key)[0], this.blockMap.get(key)[1], key]) 
     }
+    
     //Sorts array based on x position of the blocks. Sorts blocks in ascending order from lowest
     //x position to highest (from left to right on screen)
-    sortedArr.sort()
-    for(let i = 0; i<sortedArr.length; i++){
-        //console.log(sortedArr[i][0]);
-        //console.log(sortedArr[i][1]);
-        //console.log(sortedArr[i][2]);
-    }
+    sortedArr = sortedArr.sort(function(a, b) { return a[0] - b[0]; })
+    console.log(sortedArr)
+
     for(let i = 0; i<sortedArr.length; i++){
       let direction = sortedArr[i][2].slice(0, 4)
       console.log(direction)
+      console.log(this.player.angle);
+
 
       const sleep = (ms: number | undefined) => new Promise(r => setTimeout(r, ms));
       await sleep(500);      
 
       if(direction === "forw"){
-        if(this.player.angle == 0){
+        if(this.player.angle === 0){
           var tile = layer.getTileAtWorldXY(this.player.x + 32, this.player.y, true);
           if (tile.index === 2) {
             console.log('blocked')
@@ -118,28 +118,28 @@ export default class LevelScene extends Phaser.Scene {
               this.player.x += 32;
             }
           }
-        else if(this.player.angle == 90){
+        else if((this.player.angle === 90) || (this.player.angle === -270)){
           var tile = layer.getTileAtWorldXY(this.player.x, this.player.y + 32, true);
           if (tile.index === 2) {
-            //  Blocked, we can't move
+            console.log('blocked')
           }
             else {
               this.player.y += 32;
             }
         }
-        else if(this.player.angle == 180){
+        else if(Math.abs(this.player.angle) === 180){
           var tile = layer.getTileAtWorldXY(this.player.x - 32, this.player.y, true);
           if (tile.index === 2) {
-            //  Blocked, we can't move
+            console.log('blocked')
           }
             else {
               this.player.x -= 32;
             }
         }
-        else if(this.player.angle == 270){
+        else if((this.player.angle === 270) || (this.player.angle === -90)){
           var tile = layer.getTileAtWorldXY(this.player.x, this.player.y - 32, true);
           if (tile.index === 2) {
-            //  Blocked, we can't move
+            console.log('blocked')
           }
             else {
               this.player.y -= 32;
@@ -154,6 +154,5 @@ export default class LevelScene extends Phaser.Scene {
         this.player.angle -= 90;
       } 
     }
-    
   }
 }
