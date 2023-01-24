@@ -23,6 +23,9 @@ export default class LevelScene extends Phaser.Scene {
     
     // add background
     this.add.image(400, 400, "level-1-bkgrd");
+   
+    this.scoreText = this.add.text(16, 725, 'Score: 0', { fontSize: '32px', fill: '#000' });
+    this.movesLeft = this.add.text(300, 725, 'Moves Left: 10', { fontSize: '32px', fill: '#000' });
 
     // setup map with tiles
     var map = this.make.tilemap({ key: "map", tileWidth: this.tileSize, tileHeight: this.tileSize });
