@@ -14,11 +14,14 @@ export default class LevelScene extends Phaser.Scene {
   preload() {
     this.load.image("tiles", "assets/drawtiles-spaced.png");
     this.load.tilemapCSV("map", "assets/grid.csv");
+    this.load.image('whenGo', 'assets/whenGoClicked.png')
 
     this.load.image('forward', 'assets/Forward.png')
     this.load.image('right', 'assets/RightTurn.png')
     this.load.image('left', 'assets/LeftTurn.png')
     this.load.image('go', 'assets/GoButton.png')
+    this.load.image('down', 'assets/Down.png')
+
   }
 
     create() {
@@ -47,6 +50,12 @@ export default class LevelScene extends Phaser.Scene {
     components.DraggableBlock(200, 400, 'right', this, {width: 60, height: 60}, this.blockMap);
     components.DraggableBlock(300, 400, 'forward', this, {width: 60, height: 60}, this.blockMap);
     components.DraggableBlock(400, 400, 'left', this, {width: 60, height: 60}, this.blockMap);
+    components.DraggableBlock(500, 400, 'down', this, {width: 60, height: 60}, this.blockMap);
+
+
+    //add whenGo button
+    components.DraggableBlock(500, 400, 'whenGo', this, {width: 60, height: 60}, this.blockMap);
+
 
     this.setupMovement(player, layer);
   }
