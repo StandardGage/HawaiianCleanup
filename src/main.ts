@@ -8,6 +8,13 @@ export default new Phaser.Game({
 	type: Phaser.AUTO,
 	width: 400,
 	height: 400,
+	physics: {
+		default: 'arcade',
+		arcade: {
+			gravity: { y: 0 },
+			debug: true
+		}
+	},
 	scene: [PreloadScene, WelcomeScene, LevelSelectScene, LevelScene],
 	scale: {
 		autoCenter: Phaser.Scale.CENTER_BOTH,

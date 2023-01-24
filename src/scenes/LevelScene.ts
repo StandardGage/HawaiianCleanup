@@ -2,7 +2,7 @@ import components from "../components";
 
 export default class LevelScene extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
-  private fauna!: Phaser.GameObjects.Sprite
+  private fauna!: Phaser.Physics.Arcade.Sprite
 
   constructor() {
     super({ key: "LevelScene" });
@@ -13,13 +13,27 @@ export default class LevelScene extends Phaser.Scene {
     this.load.image('outdoor-tiles', 'assets/tiles/outdoors.png')
     this.load.image('vehicle-tiles', 'assets/tiles/vehicles.png')
     //this.load.image("tiles", "assets/drawtiles-spaced.png");
-    this.load.image('player', "assets/menus.brick.jpg");
+    this.load.image('player', "assets/menus.brick.jpg")
     //this.load.tilemapCSV("map", "assets/grid.csv");
     this.load.tilemapTiledJSON('map', 'assets/tiles/map-01.json')
     this.load.atlas('fauna', 'assets/sprites/fauna.png', 'assets/sprites/fauna.json')
+    this.load.audio('lvl1music', 'assets/sounds/space_traveler.ogg')
   }
 
   create() {
+    this.sound.stopByKey('menumusic');
+    var lvl1music = this.sound.add('lvl1music')
+    var musicConfig = {
+      mute: false,
+      volume: 1,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0
+    }
+    lvl1music.play(musicConfig)
+    
     // add background
     //this.add.image(400, 400, "level-1-bkgrd");
     const tilemap = this.make.tilemap({ key: 'map' })
@@ -34,7 +48,9 @@ export default class LevelScene extends Phaser.Scene {
     const topLayer2 = tilemap.createLayer('Vehicles', tileset2)
     topLayer2.setCollisionByProperty({ collides: true })
 
-    this.fauna = this.add.sprite(140, 140, 'fauna', 'walk-down-3.png')
+    this.fauna = this.physics.add.sprite(140, 140, 'fauna', 'walk-down-3.png')
+    this.fauna.body.setSize(this.fauna.width * 0.5, this.fauna.height * 0.3)
+    this.fauna.body.setOffset(8, 20)
 
     this.anims.create({
       key: 'char-idle-down',
@@ -75,53 +91,46 @@ export default class LevelScene extends Phaser.Scene {
 
     this.fauna.anims.play('char-idle-down')
 
+    this.physics.add.collider(this.fauna, bushLayer)
+    this.physics.add.collider(this.fauna, topLayer1)
+    this.physics.add.collider(this.fauna, topLayer2)
+
+    this.cameras.main.startFollow(this.fauna, true)
+
     // add test draggable blocks
     components.DraggableBlock(200, 200, "move-east", this);
     components.DraggableBlock(200, 200, "move-east", this);
 
-    this.input.keyboard.on("keydown-A",  () => {
-      var tile = tilemap.getTileAtWorldXY(this.fauna.x - 32, this.fauna.y, true);
-
-      if (tile.index === 2) {
-        //  Blocked, we can't move
-      } else {
-        this.fauna.x -= 16;
-      }
-    });
-
-    //  Right movement
-    this.input.keyboard.on("keydown-D",  () => {
-      var tile = tilemap.getTileAtWorldXY(this.fauna.x + 32, this.fauna.y, true);
-
-      if (tile.index === 2) {
-        //  Blocked, we can't move
-      } else {
-        this.fauna.x += 16;
-      }
-    });
-
-    //  Up movement
-    this.input.keyboard.on("keydown-W",  () => {
-      var tile = tilemap.getTileAtWorldXY(this.fauna.x, this.fauna.y - 32, true);
-
-      if (tile.index === 2) {
-        //  Blocked, we can't move
-      } else {
-        this.fauna.y -= 16;
-      }
-    });
-
-    //  Down movement
-    this.input.keyboard.on("keydown-S",  () => {
-      var tile = tilemap.getTileAtWorldXY(this.fauna.x, this.fauna.y + 32, true);
-
-      if (tile.index === 2) {
-        //  Blocked, we can't move
-      } else {
-        this.fauna.y += 16;
-      }
-    });
   }
 
-  update() {}
+  update(t: number, dt: number) {
+    if (!this.cursors || !this.fauna) {
+      return
+    }
+
+    const speed = 100
+
+    if (this.cursors.left?.isDown) {
+      this.fauna.anims.play('char-run-side', true)
+      this.fauna.setVelocity(-speed, 0)
+      this.fauna.scaleX = -1
+      this.fauna.body.offset.x = 24
+    } else if (this.cursors.right?.isDown) {
+      this.fauna.anims.play('char-run-side', true)
+      this.fauna.setVelocity(speed, 0)
+      this.fauna.scaleX = 1
+      this.fauna.body.offset.x = 8
+    } else if (this.cursors.up?.isDown) {
+      this.fauna.anims.play('char-run-up', true)
+      this.fauna.setVelocity(0, -speed)
+    } else if (this.cursors.down?.isDown) {
+      this.fauna.anims.play('char-run-down', true)
+      this.fauna.setVelocity(0, speed)
+    } else {
+      const parts = this.fauna.anims.currentAnim.key.split('-')
+      parts[1] = 'idle'
+      this.fauna.play(parts.join('-'))
+      this.fauna.setVelocity(0, 0)
+    }
+  }
 }

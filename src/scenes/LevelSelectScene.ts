@@ -6,7 +6,11 @@ export default class extends Phaser.Scene {
         super({ key: 'LevelSelectScene' });
     }
 
-    create() {
+    create(data) {
+        setTimeout(() => {
+            data.music.stop();
+        }, 2000)
+        
         // add background
         this.add.image(200, 200, 'level-select-bkgrd');
 

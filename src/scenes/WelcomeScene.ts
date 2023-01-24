@@ -15,7 +15,14 @@ export default class WelcomeScene extends Phaser.Scene {
 		this.centerY = this.cameras.main.centerY;
 	}
 
+	preload() {
+		this.load.audio('menumusic', 'assets/sounds/menu_music.ogg')
+	}
+
 	create() {
+		var menumusic = this.sound.add('menumusic')
+		menumusic.play()
+
 		// add background image
 		this.add.image(200, 200, 'main-bkgrd');
 		//add play button
