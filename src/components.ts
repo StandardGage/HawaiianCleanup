@@ -95,17 +95,19 @@ export default class components{
         draggableBlock.setSize(displaySize.width, displaySize.height)
         draggableBlock.setInteractive();
         scene.input.setDraggable(draggableBlock);
-        draggableBlock.list
+        draggableBlock.depth = 0
         map.set(image, [draggableBlock.x, draggableBlock.y])
 
-        scene.input.on('drag', function (pointer: any, gameObject: { x: number; y: number; list: Phaser.GameObjects.GameObject[]}, dragX: number, dragY: number) {
+        scene.input.on('drag', function (pointer: any, gameObject: { x: number; y: number; list: Phaser.GameObjects.GameObject[], depth:number}, dragX: number, dragY: number) {
             gameObject.x = dragX
             gameObject.y = dragY
             gameObject.list[0].setAlpha(1)
+            gameObject.depth = 1
         })
 
         scene.input.on('pointerup', () => {
             shadow.setAlpha(0)
+            draggableBlock.depth = 0
             let snap = 60;
             let left = Math.floor(draggableBlock.x / snap) * snap
             let right = Math.ceil(draggableBlock.x / snap) * snap
