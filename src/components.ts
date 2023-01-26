@@ -87,18 +87,25 @@ export default class components{
      * @todo - allow it to snap to other blocks, show when it is picked up, connect to an array when snapped together
      */
     static DraggableBlock(x: number, y:number, image: string, scene: Phaser.Scene, displaySize: {width: number, height: number}, map: Map<string, number[]>) {
-        var draggableBlock = scene.add.image(x, y, image);
+        var img = scene.add.image(0, 0, image);
+        img.setDisplaySize(displaySize.width, displaySize.height)
+        var shadow = scene.add.rectangle(0, 0, displaySize.width + 10, displaySize.height + 10, 0x0000000)
+        shadow.setAlpha(0)
+        var draggableBlock = scene.add.container(x, y, [shadow, img])
+        draggableBlock.setSize(displaySize.width, displaySize.height)
         draggableBlock.setInteractive();
         scene.input.setDraggable(draggableBlock);
-        draggableBlock.setDisplaySize(displaySize.width, displaySize.height)
+        draggableBlock.list
         map.set(image, [draggableBlock.x, draggableBlock.y])
 
-        scene.input.on('drag', function (pointer: any, gameObject: { x: number; y: number; }, dragX: number, dragY: number) {
+        scene.input.on('drag', function (pointer: any, gameObject: { x: number; y: number; list: Phaser.GameObjects.GameObject[]}, dragX: number, dragY: number) {
             gameObject.x = dragX
             gameObject.y = dragY
+            gameObject.list[0].setAlpha(1)
         })
 
         scene.input.on('pointerup', () => {
+            shadow.setAlpha(0)
             let snap = 60;
             let left = Math.floor(draggableBlock.x / snap) * snap
             let right = Math.ceil(draggableBlock.x / snap) * snap
