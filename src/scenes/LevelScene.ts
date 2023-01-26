@@ -6,8 +6,10 @@ export default class LevelScene extends Phaser.Scene {
   constructor() {
     super({ key: "LevelScene" });
   }
-  private blockMap: Map<string, number[]> = new Map();
-  private player: Phaser.Physics.Arcade.Sprite;
+  private blockArray: Array<any> = new Array();
+  private player!: Phaser.Physics.Arcade.Sprite;
+  
+  go!: Phaser.GameObjects.Container
 
   tileSize = 32;
   scoreText!: Phaser.GameObjects.Text
@@ -18,22 +20,9 @@ export default class LevelScene extends Phaser.Scene {
     this.load.tilemapCSV("map", "assets/grid.csv");
     this.load.image('whenGo', 'assets/whenGoClicked.png')
 
-    this.load.image('forward1', 'assets/Forward.png')
-    this.load.image('forward2', 'assets/Forward.png')
-    this.load.image('forward3', 'assets/Forward.png')
-    this.load.image('forward4', 'assets/Forward.png')
-    this.load.image('forward5', 'assets/Forward.png')
-    this.load.image('forward6', 'assets/Forward.png')
-    this.load.image('forward7', 'assets/Forward.png')
-    this.load.image('forward8', 'assets/Forward.png')
-    this.load.image('forward9', 'assets/Forward.png')
-    this.load.image('forward10', 'assets/Forward.png')
-    this.load.image('right1', 'assets/RightTurn.png')
-    this.load.image('right2', 'assets/RightTurn.png')
-    this.load.image('right3', 'assets/RightTurn.png')
-    this.load.image('left1', 'assets/LeftTurn.png')
-    this.load.image('left2', 'assets/LeftTurn.png')
-    this.load.image('left3', 'assets/LeftTurn.png')
+    this.load.image('forward', 'assets/Forward.png')
+    this.load.image('right', 'assets/RightTurn.png')
+    this.load.image('left', 'assets/LeftTurn.png')
     this.load.image('go', 'assets/GoButton.png')
     this.load.image('down', 'assets/Down.png')
     this.load.image('player', 'assets/samplesprite.png')
@@ -62,53 +51,52 @@ export default class LevelScene extends Phaser.Scene {
     go.setInteractive().on('pointerdown', ()=>this.readBlocks(layer));
 
     // add test draggable blocks
-    components.DraggableBlock(30, 400, 'right1', this, {width: 60, height: 60}, this.blockMap);
-    components.DraggableBlock(90, 400, 'right2', this, {width: 60, height: 60}, this.blockMap);
-    components.DraggableBlock(150, 400, 'right3', this, {width: 60, height: 60}, this.blockMap);
-    components.DraggableBlock(210, 400, 'left1', this, {width: 60, height: 60}, this.blockMap);
-    components.DraggableBlock(270, 400, 'left2', this, {width: 60, height: 60}, this.blockMap);
-    components.DraggableBlock(330, 400, 'left3', this, {width: 60, height: 60}, this.blockMap);
-    components.DraggableBlock(30, 300, 'forward1', this, {width: 60, height: 60}, this.blockMap);
-    components.DraggableBlock(90, 300, 'forward2', this, {width: 60, height: 60}, this.blockMap);
-    components.DraggableBlock(150, 300, 'forward3', this, {width: 60, height: 60}, this.blockMap);
-    components.DraggableBlock(210, 300, 'forward4', this, {width: 60, height: 60}, this.blockMap);
-    components.DraggableBlock(270, 300, 'forward5', this, {width: 60, height: 60}, this.blockMap);
-    components.DraggableBlock(330, 300, 'forward6', this, {width: 60, height: 60}, this.blockMap);
-    components.DraggableBlock(390, 300, 'forward7', this, {width: 60, height: 60}, this.blockMap);
-    components.DraggableBlock(450, 300, 'forward8', this, {width: 60, height: 60}, this.blockMap);
-    components.DraggableBlock(510, 300, 'forward9', this, {width: 60, height: 60}, this.blockMap);
-    components.DraggableBlock(570, 300, 'forward10', this, {width: 60, height: 60}, this.blockMap);
+    components.DraggableBlock(30, 400, 'right', this, {width: 60, height: 60}, this.blockArray);
+    components.DraggableBlock(90, 400, 'right', this, {width: 60, height: 60}, this.blockArray);
+    components.DraggableBlock(150, 400, 'right', this, {width: 60, height: 60}, this.blockArray);
+    components.DraggableBlock(210, 400, 'left', this, {width: 60, height: 60}, this.blockArray);
+    components.DraggableBlock(270, 400, 'left', this, {width: 60, height: 60}, this.blockArray);
+    components.DraggableBlock(330, 400, 'left', this, {width: 60, height: 60}, this.blockArray);
+    components.DraggableBlock(30, 300, 'forward', this, {width: 60, height: 60}, this.blockArray);
+    components.DraggableBlock(90, 300, 'forward', this, {width: 60, height: 60}, this.blockArray);
+    components.DraggableBlock(150, 300, 'forward', this, {width: 60, height: 60}, this.blockArray);
+    components.DraggableBlock(210, 300, 'forward', this, {width: 60, height: 60}, this.blockArray);
+    components.DraggableBlock(270, 300, 'forward', this, {width: 60, height: 60}, this.blockArray);
+    components.DraggableBlock(330, 300, 'forward', this, {width: 60, height: 60}, this.blockArray);
+    components.DraggableBlock(390, 300, 'forward', this, {width: 60, height: 60}, this.blockArray);
+    components.DraggableBlock(450, 300, 'forward', this, {width: 60, height: 60}, this.blockArray);
+    components.DraggableBlock(510, 300, 'forward', this, {width: 60, height: 60}, this.blockArray);
+    components.DraggableBlock(570, 300, 'forward', this, {width: 60, height: 60}, this.blockArray);
 
-    components.DraggableBlock(750, 400, 'down', this, {width: 60, height: 60}, this.blockMap);
+    //components.DraggableBlock(750, 400, 'down', this, {width: 60, height: 60}, this.blockArray);
 
 
     //add whenGo button
-    components.DraggableBlock(500, 400, 'whenGo', this, {width: 60, height: 60}, this.blockMap);
+    this.go = components.DraggableBlock(500, 400, 'whenGo', this, {width: 60, height: 60}, this.blockArray);
 
   }
 
   async readBlocks(layer: Phaser.Tilemaps.TilemapLayer){
-    //console.log(this.blockMap)
     let sortedArr: Array<any> = [];
-    for(let key of this.blockMap.keys()) {
-        sortedArr.push([this.blockMap.get(key)[0], this.blockMap.get(key)[1], key]) 
+    for (let i = 0; i < this.blockArray.length; i++) {
+      sortedArr.push(this.blockArray[i]);
     }
     
     //Sorts array based on x position of the blocks. Sorts blocks in ascending order from lowest
     //x position to highest (from left to right on screen)
-    sortedArr = sortedArr.sort(function(a, b) { return a[0] - b[0]; })
-    console.log(sortedArr)
+    sortedArr = sortedArr.sort(function(a, b) { return a.x - b.x; })
+    
+    
+
 
     for(let i = 0; i<sortedArr.length; i++){
-      let direction = sortedArr[i][2].slice(0, 4)
-      console.log(direction)
-      console.log(this.player.angle);
-
+      sortedArr[i].list[0].setAlpha(1)
+      let direction = sortedArr[i].name
 
       const sleep = (ms: number | undefined) => new Promise(r => setTimeout(r, ms));
       await sleep(500);      
 
-      if(direction === "forw"){
+      if(direction === "forward"){
         if(this.player.angle === 0){
           var tile = layer.getTileAtWorldXY(this.player.x + 32, this.player.y, true);
           if (tile.index === 2) {
@@ -146,7 +134,7 @@ export default class LevelScene extends Phaser.Scene {
             }
         }
       }
-      else if(direction === 'righ'){
+      else if(direction === 'right'){
         console.log("rotated right")
         this.player.angle += 90;
       }

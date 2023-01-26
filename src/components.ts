@@ -86,7 +86,7 @@ export default class components{
      * @param map - array of all blocks
      * @todo - allow it to snap to other blocks, show when it is picked up, connect to an array when snapped together
      */
-    static DraggableBlock(x: number, y:number, image: string, scene: Phaser.Scene, displaySize: {width: number, height: number}, map: Map<string, number[]>) {
+    static DraggableBlock(x: number, y:number, image: string, scene: Phaser.Scene, displaySize: {width: number, height: number}, array: Array<any>) {
         var img = scene.add.image(0, 0, image);
         img.setDisplaySize(displaySize.width, displaySize.height)
         var shadow = scene.add.rectangle(0, 0, displaySize.width + 10, displaySize.height + 10, 0x0000000)
@@ -96,7 +96,10 @@ export default class components{
         draggableBlock.setInteractive();
         scene.input.setDraggable(draggableBlock);
         draggableBlock.depth = 0
-        map.set(image, [draggableBlock.x, draggableBlock.y])
+        draggableBlock.name = image
+        
+        
+        array.push(draggableBlock)
 
         scene.input.on('drag', function (pointer: any, gameObject: { x: number; y: number; list: Phaser.GameObjects.GameObject[], depth:number}, dragX: number, dragY: number) {
             gameObject.x = dragX
@@ -123,9 +126,8 @@ export default class components{
             } else {
                 draggableBlock.y = down
             }
-
-            map.set(image, [draggableBlock.x, draggableBlock.y])
         })
         
+        return draggableBlock
     }
 }
