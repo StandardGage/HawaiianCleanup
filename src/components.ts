@@ -100,18 +100,11 @@ export default class components{
         draggableBlock.depth = 0
         draggableBlock.name = image
         
-        
-        array.push(draggableBlock)
-
-        scene.input.on('drag', function (pointer: any, gameObject: { x: number; y: number; list: Phaser.GameObjects.GameObject[], depth:number}, dragX: number, dragY: number) {
-        
         array.push(draggableBlock)
 
         scene.input.on('drag', function (pointer: any, gameObject: { x: number; y: number; list: Phaser.GameObjects.GameObject[], depth:number}, dragX: number, dragY: number) {
             gameObject.x = dragX
             gameObject.y = dragY
-            gameObject.list[0].setAlpha(1)
-            gameObject.depth = 1
             gameObject.list[0].setAlpha(1)
             gameObject.depth = 1
         })
