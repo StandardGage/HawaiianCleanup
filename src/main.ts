@@ -15,6 +15,13 @@ export default new Phaser.Game({
 			debug: true
 		}
 	},
+	physics: {
+		default: 'arcade',
+		arcade: {
+			gravity: { y: 0 },
+			debug: true
+		},
+	},
 	scene: [PreloadScene, WelcomeScene, LevelSelectScene, LevelScene],
 	scale: {
 		autoCenter: Phaser.Scale.CENTER_BOTH,

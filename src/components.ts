@@ -84,6 +84,8 @@ export default class components{
      * @param scene - current scene (use 'this')
      * @param displaySize - size of block {width, height}
      * @param map - array of all blocks
+     * @param displaySize - size of block {width, height}
+     * @param map - array of all blocks
      * @todo - allow it to snap to other blocks, show when it is picked up, connect to an array when snapped together
      */
     static DraggableBlock(x: number, y:number, image: string, scene: Phaser.Scene, displaySize: {width: number, height: number}, array: Array<any>) {
@@ -102,8 +104,14 @@ export default class components{
         array.push(draggableBlock)
 
         scene.input.on('drag', function (pointer: any, gameObject: { x: number; y: number; list: Phaser.GameObjects.GameObject[], depth:number}, dragX: number, dragY: number) {
+        
+        array.push(draggableBlock)
+
+        scene.input.on('drag', function (pointer: any, gameObject: { x: number; y: number; list: Phaser.GameObjects.GameObject[], depth:number}, dragX: number, dragY: number) {
             gameObject.x = dragX
             gameObject.y = dragY
+            gameObject.list[0].setAlpha(1)
+            gameObject.depth = 1
             gameObject.list[0].setAlpha(1)
             gameObject.depth = 1
         })

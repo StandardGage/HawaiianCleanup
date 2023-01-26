@@ -1,10 +1,20 @@
+import { Vector } from "matter";
 import components from "../components";
 
 export default class LevelScene extends Phaser.Scene {
 
+
   constructor() {
     super({ key: "LevelScene" });
   }
+  private blockArray: Array<any> = new Array();
+  private player!: Phaser.Physics.Arcade.Sprite;
+  
+  go!: Phaser.GameObjects.Container
+
+  tileSize = 32;
+  scoreText!: Phaser.GameObjects.Text
+  movesLeft!: Phaser.GameObjects.Text 
   private blockArray: Array<any> = new Array();
   private player!: Phaser.Physics.Arcade.Sprite;
   
