@@ -13,10 +13,6 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('level-select-bkgrd', 'assets/menus/volcano2.jpg')
         this.load.image('level-button-bkgrd', 'assets/menus/brick.jpg')
         this.load.image('level-1-bkgrd', '800/800')
-
-        //sprites
-        this.load.image('move-east', 'assets/tiles/block.jpg')
-
     }
 
     create() {
