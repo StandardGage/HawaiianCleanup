@@ -16,8 +16,11 @@ export default class WelcomeScene extends Phaser.Scene {
 	}
 
 	create() {
+		var menumusic = this.sound.add('menumusic')
+		menumusic.play()
+
 		// add background image
-		this.add.image(400, 400, 'main-bkgrd');
+		this.add.image(200, 200, 'main-bkgrd');
 		//add play button
 		components.Button(this.centerX, this.centerY, 'Play', this, 'LevelSelectScene')
 	}

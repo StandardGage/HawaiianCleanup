@@ -11,6 +11,14 @@ export default class components{
         fontSize: '32px',
     }
 
+    static levelStyle:Phaser.GameObjects.TextStyle = {
+        fontFamily: 'Arial', 
+        fontSize: '25px', 
+        color: '#ffffff', 
+        stroke: '#000000', 
+        strokeThickness: 5
+    }
+
     /**
      * Creates a standard button
      * @param {number} x - Horizontal location
@@ -53,7 +61,7 @@ export default class components{
     */
     static LevelButton(x:number, y:number, text:string, image:string, scene: Phaser.Scene, new_scene:string | undefined, isDisabled:boolean | undefined) {
         var levelButton = scene.add.container(x, y)
-        var levelText = scene.add.text(0,0,text,this.style)
+        var levelText = scene.add.text(0,0,text, this.levelStyle)
         levelText.setOrigin(0.5,0.5)
         var levelImage = scene.add.image(0,0,image)
         levelButton.add( [levelImage,levelText] )
@@ -84,6 +92,8 @@ export default class components{
      * @param scene - current scene (use 'this')
      * @param displaySize - size of block {width, height}
      * @param map - array of all blocks
+     * @param displaySize - size of block {width, height}
+     * @param map - array of all blocks
      * @todo - allow it to snap to other blocks, show when it is picked up, connect to an array when snapped together
      */
     static DraggableBlock(x: number, y:number, image: string, scene: Phaser.Scene, displaySize: {width: number, height: number}, array: Array<any>) {
@@ -98,7 +108,6 @@ export default class components{
         draggableBlock.depth = 0
         draggableBlock.name = image
         
-        
         array.push(draggableBlock)
 
         scene.input.on('drag', function (pointer: any, gameObject: { x: number; y: number; list: Phaser.GameObjects.GameObject[], depth:number}, dragX: number, dragY: number) {
@@ -111,7 +120,7 @@ export default class components{
         scene.input.on('pointerup', () => {
             shadow.setAlpha(0)
             draggableBlock.depth = 0
-            let snap = 60;
+            let snap = 25;
             let left = Math.floor(draggableBlock.x / snap) * snap
             let right = Math.ceil(draggableBlock.x / snap) * snap
             if (draggableBlock.x <= left + (snap/2)) {
