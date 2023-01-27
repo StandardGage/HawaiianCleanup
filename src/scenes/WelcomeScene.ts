@@ -21,7 +21,8 @@ export default class WelcomeScene extends Phaser.Scene {
 
 		// add background image
 		this.add.image(200, 200, 'main-bkgrd');
-		//add play button
+		//add play and instructions button 
 		components.Button(this.centerX, this.centerY, 'Play', this, 'LevelSelectScene')
+		components.Button(this.centerX, this.centerY + 35, 'Instructions', this, 'InstructionScene')
 	}
 }
