@@ -24,5 +24,9 @@ export default class WelcomeScene extends Phaser.Scene {
 		//add play and instructions button 
 		components.Button(this.centerX, this.centerY, 'Play', this, 'LevelSelectScene')
 		components.Button(this.centerX, this.centerY + 35, 'Instructions', this, 'InstructionScene')
+		components.Button(this.centerX, this.centerY + 70, 'wins test', this, 'WinScene')
+		components.Button(this.centerX, this.centerY + 105, 'gameover test', this, 'GameoverScene')
+
+
 	}
 }
