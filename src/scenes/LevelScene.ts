@@ -1,4 +1,3 @@
-import { Vector } from "matter";
 import components from "../components";
 
 export default class LevelScene extends Phaser.Scene {
@@ -7,7 +6,7 @@ export default class LevelScene extends Phaser.Scene {
   constructor() {
     super({ key: "LevelScene" });
   }
-  private blockArray: Array<any> = new Array();
+  private blockArray: Array<Phaser.GameObjects.Container> = new Array();
   private player!: Phaser.Physics.Arcade.Sprite;
   
   go!: Phaser.GameObjects.Container
@@ -15,29 +14,6 @@ export default class LevelScene extends Phaser.Scene {
   tileSize = 32;
   scoreText!: Phaser.GameObjects.Text
   movesLeft!: Phaser.GameObjects.Text 
-  private blockArray: Array<any> = new Array();
-  private player!: Phaser.Physics.Arcade.Sprite;
-  
-  go!: Phaser.GameObjects.Container
-
-  tileSize = 32;
-  scoreText!: Phaser.GameObjects.Text
-  movesLeft!: Phaser.GameObjects.Text 
-
-  preload() {
-    this.load.image("tiles", "assets/drawtiles-spaced.png");
-    this.load.image('whenGo', 'assets/whenGoClicked.png')
-    this.load.image('forward', 'assets/Forward.png')
-    this.load.image('right', 'assets/RightTurn.png')
-    this.load.image('left', 'assets/LeftTurn.png')
-    this.load.image('go', 'assets/GoButton.png')
-    this.load.image('down', 'assets/Down.png')
-    this.load.image('outdoor-tiles', 'assets/tiles/outdoors.png')
-    this.load.image('vehicle-tiles', 'assets/tiles/vehicles.png')
-    this.load.tilemapTiledJSON('map', 'assets/tiles/map-01.json')
-    this.load.atlas('fauna', 'assets/sprites/fauna.png', 'assets/sprites/fauna.json')
-    this.load.audio('lvl1music', 'assets/sounds/space_traveler.ogg')
-  }
 
     create() {
       this.sound.stopByKey('menumusic');
@@ -70,6 +46,7 @@ export default class LevelScene extends Phaser.Scene {
     this.player.body.setSize(this.player.width * 0.5, this.player.height * 0.3)
     this.player.body.setOffset(8, 20)
 
+    // setup animations
     this.anims.create({
       key: 'char-idle-down',
       frames: [{ key: 'fauna', frame: 'walk-down-3.png' }]
@@ -131,9 +108,6 @@ export default class LevelScene extends Phaser.Scene {
     components.DraggableBlock(300, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
     components.DraggableBlock(340, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
     components.DraggableBlock(380, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
-
-    //components.DraggableBlock(750, 400, 'down', this, {width: 25, height: 25}, this.blockArray);
-
 
     //add whenGo button
     this.go = components.DraggableBlock(260, 350, 'whenGo', this, {width: 25, height: 25}, this.blockArray);
