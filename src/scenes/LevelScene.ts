@@ -9,7 +9,7 @@ export default class LevelScene extends Phaser.Scene {
   private blockArray: Array<Phaser.GameObjects.Container> = new Array();
   private player!: Phaser.Physics.Arcade.Sprite;
   
-  go!: Phaser.GameObjects.Container
+  whenGo!: Phaser.GameObjects.Container
 
   tileSize = 16;
   scoreText!: Phaser.GameObjects.Text
@@ -48,7 +48,7 @@ export default class LevelScene extends Phaser.Scene {
       lvl1music.play(musicConfig)
 
     // setup map with tiles
-    var tilemap = this.make.tilemap({ key: 'map' })
+    var tilemap = this.make.tilemap({ key: 'map'})
     var tileset1 = tilemap.addTilesetImage('outdoors', 'outdoor-tiles')
     var tileset2 = tilemap.addTilesetImage('vehicles', 'vehicle-tiles')
     var allLayers = [tileset1, tileset2]
@@ -129,7 +129,7 @@ export default class LevelScene extends Phaser.Scene {
     components.DraggableBlock(380, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
 
     //add whenGo button
-    this.go = components.DraggableBlock(260, 350, 'whenGo', this, {width: 25, height: 25}, this.blockArray);
+    this.whenGo = components.DraggableBlock(250, 100, 'whenGo', this, {width: 25, height: 25}, this.blockArray);
 
     this.physics.add.collider(this.player, bushLayer)
     this.physics.add.collider(this.player, topLayer1)
@@ -153,32 +153,48 @@ export default class LevelScene extends Phaser.Scene {
   }
 
   async readBlocks(layer: Phaser.Tilemaps.TilemapLayer){
-    let sortedArr: Array<any> = [];
+    var index = {x:this.whenGo.x, y:this.whenGo.y}
+
+    // get all blocks vertical from whenGo
+    var sortedArr: Array<Phaser.GameObjects.Container> = [];
     for (let i = 0; i < this.blockArray.length; i++) {
-      sortedArr.push(this.blockArray[i]);
+      if (this.blockArray[i].x == index.x) {
+        if (this.blockArray[i].name === 'whenGo') {
+          continue
+        }
+        sortedArr.push(this.blockArray[i])
+      }
     }
-    
-    //Sorts array based on x position of the blocks. Sorts blocks in ascending order from lowest
-    //x position to highest (from left to right on screen)
-    sortedArr = sortedArr.sort(function(a, b) { return a.x - b.x; })
-    
-    for(let i = 0; i<sortedArr.length; i++){
-      sortedArr[i].list[0].setAlpha(1)
-      let direction = sortedArr[i].name
+
+    // sort array by y values; top first
+    sortedArr.sort((a,b) => a.y - b.y)
+
+    // get all blocks connected to whenGo
+    var directions: Array<Phaser.GameObjects.Container> = []
+    for (let i = 0; i < sortedArr.length; i++) {
+      if (sortedArr[i].y === index.y + 25) {
+        directions.push(sortedArr[i])
+        index.y += 25
+      }
+    }
+
+    for(let i = 0; i<directions.length; i++){
+      directions[i].list[0].setAlpha(1)
+      let direction = directions[i].name
 
       const sleep = (ms: number | undefined) => new Promise(r => setTimeout(r, ms));
       await sleep(500);      
 
       if(direction === "forward"){
         if(this.player.angle === 0){
-          var tile = layer.getTileAtWorldXY(this.player.x + 32, this.player.y, true);
+          var tile = layer.getTileAtWorldXY(this.player.x + 25, this.player.y, true);
           if (tile.index > 0) {
             console.log('blocked')
           }
             else {
               this.player.anims.play('char-run-side', true)
               this.player.scaleX = 1
-              this.player.x += 32;            }
+              this.player.x += 25;            }
           }
         else if((this.player.angle === 90) || (this.player.angle === -270)){
           var tile = layer.getTileAtWorldXY(this.player.x, this.player.y + 32, true);
@@ -187,7 +203,7 @@ export default class LevelScene extends Phaser.Scene {
           }
             else {
               this.player.anims.play('char-run-down', true)
-              this.player.y += 32;
+              this.player.y += 25;
             }
         }
         else if(Math.abs(this.player.angle) === 180){
