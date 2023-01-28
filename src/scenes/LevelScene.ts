@@ -1,4 +1,3 @@
-import { Vector } from "matter";
 import components from "../components";
 
 export default class LevelScene extends Phaser.Scene {
@@ -12,17 +11,11 @@ export default class LevelScene extends Phaser.Scene {
   
   go!: Phaser.GameObjects.Container
 
-  tileSize = 32;
+  tileSize = 16;
   scoreText!: Phaser.GameObjects.Text
   movesLeft!: Phaser.GameObjects.Text 
-  private blockArray: Array<any> = new Array();
-  private player!: Phaser.Physics.Arcade.Sprite;
-  
-  go!: Phaser.GameObjects.Container
-
-  tileSize = 32;
-  scoreText!: Phaser.GameObjects.Text
-  movesLeft!: Phaser.GameObjects.Text 
+  endpt;
+  gem!: Phaser.GameObjects.Sprite
 
   preload() {
     this.load.image("tiles", "assets/drawtiles-spaced.png");
@@ -37,6 +30,7 @@ export default class LevelScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('map', 'assets/tiles/map-01.json')
     this.load.atlas('fauna', 'assets/sprites/fauna.png', 'assets/sprites/fauna.json')
     this.load.audio('lvl1music', 'assets/sounds/space_traveler.ogg')
+    this.load.image('gem', 'assets/empty.png')
   }
 
     create() {
@@ -66,7 +60,8 @@ export default class LevelScene extends Phaser.Scene {
     topLayer1.setCollisionByProperty({ collides: true })
 
     // setup player
-    this.player = this.physics.add.sprite(140, 140, 'fauna', 'walk-down-3.png')
+    //this.player = this.physics.add.sprite(25, 160, 'fauna', 'walk-down-3.png')
+    this.player = this.physics.add.sprite(200, 290, 'fauna', 'walk-down-3.png')
     this.player.body.setSize(this.player.width * 0.5, this.player.height * 0.3)
     this.player.body.setOffset(8, 20)
 
@@ -153,6 +148,10 @@ export default class LevelScene extends Phaser.Scene {
       fontSize: '12px',
 		});
 
+    this.endpt = tilemap.findObject("Objects", obj => obj.name === "end");
+    this.gem = this.add.sprite(this.endpt.x, this.endpt.y, "gem");
+    this.physics.add.existing(this.gem, true);
+    this.physics.add.overlap(this.gem,this.player,this.reachedGoal, function(){}, this);
   }
 
   async readBlocks(layer: Phaser.Tilemaps.TilemapLayer){
@@ -217,16 +216,22 @@ export default class LevelScene extends Phaser.Scene {
       }
       else if(direction === 'right' && this.player.angle === 0){
         console.log("rotated right")
+        //this.player.rotation += -Math.PI/2;
         this.player.angle += 90;
-        this.player.rotation += -Math.PI/2;
         this.player.anims.play('char-idle-down')
       }
       else if(direction === 'left'){
         console.log("rotated left")
         this.player.anims.play('char-idle-up')
-        //this.fauna.angle -= 90;
+        this.player.angle -= 90;
       } 
     }
     this.player.anims.stop()
+  }
+
+  reachedGoal(){
+    console.log("Reached end");
+    //placeholder for now, just move on to next scene here
+    this.scene.start('WelcomeScene')
   }
 }
