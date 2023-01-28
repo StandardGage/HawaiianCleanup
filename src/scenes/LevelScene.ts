@@ -6,7 +6,7 @@ export default class LevelScene extends Phaser.Scene {
   constructor() {
     super({ key: "LevelScene" });
   }
-  private blockArray: Array<any> = new Array();
+  private blockArray: Array<Phaser.GameObjects.Container> = new Array();
   private player!: Phaser.Physics.Arcade.Sprite;
   
   go!: Phaser.GameObjects.Container
@@ -65,6 +65,7 @@ export default class LevelScene extends Phaser.Scene {
     this.player.body.setSize(this.player.width * 0.5, this.player.height * 0.3)
     this.player.body.setOffset(8, 20)
 
+    // setup animations
     this.anims.create({
       key: 'char-idle-down',
       frames: [{ key: 'fauna', frame: 'walk-down-3.png' }]
@@ -126,9 +127,6 @@ export default class LevelScene extends Phaser.Scene {
     components.DraggableBlock(300, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
     components.DraggableBlock(340, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
     components.DraggableBlock(380, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
-
-    //components.DraggableBlock(750, 400, 'down', this, {width: 25, height: 25}, this.blockArray);
-
 
     //add whenGo button
     this.go = components.DraggableBlock(260, 350, 'whenGo', this, {width: 25, height: 25}, this.blockArray);
