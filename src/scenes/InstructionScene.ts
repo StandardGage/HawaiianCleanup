@@ -16,9 +16,9 @@ export default class InstructionScene extends Phaser.Scene {
   create() {
     var menumusic = this.sound.add("menumusic");
     menumusic.play();
-    this.add.image(200, 200, "level-select-bkgrd");
+    this.add.image(300, 200, "level-select-bkgrd");
 
-    components.Button(380, 20, 'X', this, 'WelcomeScene')
+    components.Button(550, 30, 'X', this, 'WelcomeScene')
 
     // add background image
     this.add.text(this.centerX, this.centerY, "The goal of this game is to collect all\n the trash and plastic on each level\n and avoiding picking up lava rocks\n and picking flowers. You would move \n around the level by using the\n blocks and putting them in a certain\n order so that you collect all the trash.", {

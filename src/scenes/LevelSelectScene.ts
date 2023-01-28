@@ -9,7 +9,7 @@ export default class extends Phaser.Scene {
     create() {
         
         // add background
-        this.add.image(200, 200, 'level-select-bkgrd');
+        this.add.image(300, 200, 'level-select-bkgrd');
 
         // add menu button
         components.Button(100, 700, 'Menu', this, 'WelcomeScene')

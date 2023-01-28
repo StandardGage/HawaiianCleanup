@@ -20,12 +20,20 @@ export default class WelcomeScene extends Phaser.Scene {
 		menumusic.play()
 
 		// add background image
-		this.add.image(200, 200, 'main-bkgrd');
+		this.add.image(300, 200, 'main-bkgrd');
+
+		this.add.text(this.centerX, this.centerY - 100, "Hawaiian Cleanup", {
+			align: 'center', 
+			stroke: '#000000',
+			strokeThickness: 6,
+			fontSize: 50
+		}).setOrigin(0.5);
+
 		//add play and instructions button 
-		components.Button(this.centerX, this.centerY, 'Play', this, 'LevelSelectScene')
-		components.Button(this.centerX, this.centerY + 35, 'Instructions', this, 'InstructionScene')
-		components.Button(this.centerX, this.centerY + 70, 'wins test', this, 'WinScene')
-		components.Button(this.centerX, this.centerY + 105, 'gameover test', this, 'GameoverScene')
+		components.Button(this.centerX, this.centerY - 35, 'Play', this, 'LevelSelectScene')
+		components.Button(this.centerX, this.centerY, 'Instructions', this, 'InstructionScene')
+		components.Button(this.centerX, this.centerY + 35, 'Wins Test', this, 'WinScene')
+		components.Button(this.centerX, this.centerY + 70, 'Gameover Test', this, 'GameoverScene')
 
 
 	}
