@@ -16,9 +16,9 @@ export default class GameoverScene extends Phaser.Scene {
   create() {
     var menumusic = this.sound.add("menumusic");
     menumusic.play();
-    this.add.image(200, 200, "level-select-bkgrd");
+    this.add.image(300, 200, "level-select-bkgrd");
     // button takes you back to level select screen
-    components.Button(380, 20, 'X', this, 'WelcomeScene')
+    components.Button(550, 30, 'X', this, 'WelcomeScene')
     // "Game Over" Text
     this.add.text(this.centerX, this.centerY - 50, "GAME OVER", {
         align: 'center', 

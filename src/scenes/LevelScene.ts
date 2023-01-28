@@ -11,9 +11,27 @@ export default class LevelScene extends Phaser.Scene {
   
   whenGo!: Phaser.GameObjects.Container
 
-  tileSize = 32;
+  tileSize = 16;
   scoreText!: Phaser.GameObjects.Text
   movesLeft!: Phaser.GameObjects.Text 
+  endpt;
+  gem!: Phaser.GameObjects.Sprite
+
+  preload() {
+    this.load.image("tiles", "assets/drawtiles-spaced.png");
+    this.load.image('whenGo', 'assets/whenGoClicked.png')
+    this.load.image('forward', 'assets/Forward.png')
+    this.load.image('right', 'assets/RightTurn.png')
+    this.load.image('left', 'assets/LeftTurn.png')
+    this.load.image('go', 'assets/GoButton.png')
+    this.load.image('down', 'assets/Down.png')
+    this.load.image('outdoor-tiles', 'assets/tiles/outdoors.png')
+    this.load.image('vehicle-tiles', 'assets/tiles/vehicles.png')
+    this.load.tilemapTiledJSON('map', 'assets/tiles/map-01.json')
+    this.load.atlas('fauna', 'assets/sprites/fauna.png', 'assets/sprites/fauna.json')
+    this.load.audio('lvl1music', 'assets/sounds/space_traveler.ogg')
+    this.load.image('gem', 'assets/empty.png')
+  }
 
     create() {
       this.sound.stopByKey('menumusic');
@@ -42,7 +60,7 @@ export default class LevelScene extends Phaser.Scene {
     topLayer1.setCollisionByProperty({ collides: true })
 
     // setup player
-    this.player = this.physics.add.sprite(140, 140, 'fauna', 'walk-down-3.png')
+    this.player = this.physics.add.sprite(40, 160, 'fauna', 'walk-down-3.png')
     this.player.body.setSize(this.player.width * 0.5, this.player.height * 0.3)
     this.player.body.setOffset(8, 20)
 
@@ -87,30 +105,33 @@ export default class LevelScene extends Phaser.Scene {
     this.player.anims.play('char-idle-side')
 
     // add go button
-    var go = this.add.image(60, 60, 'go')
+    var go = this.add.image(560, 360, 'go')
     go.setDisplaySize(60,60)
     go.setInteractive().on('pointerdown', ()=>this.readBlocks(bushLayer));
 
     // add test draggable blocks
-    components.DraggableBlock(20, 350, 'right', this, {width: 25, height: 25}, this.blockArray);
-    components.DraggableBlock(60, 350, 'right', this, {width: 25, height: 25}, this.blockArray);
-    components.DraggableBlock(100, 350, 'right', this, {width: 25, height: 25}, this.blockArray);
-    components.DraggableBlock(140, 350, 'left', this, {width: 25, height: 25}, this.blockArray);
-    components.DraggableBlock(180, 350, 'left', this, {width: 25, height: 25}, this.blockArray);
-    components.DraggableBlock(220, 350, 'left', this, {width: 25, height: 25}, this.blockArray);
-    components.DraggableBlock(20, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
-    components.DraggableBlock(60, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
-    components.DraggableBlock(100, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
-    components.DraggableBlock(140, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
-    components.DraggableBlock(180, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
-    components.DraggableBlock(220, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
-    components.DraggableBlock(260, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
-    components.DraggableBlock(300, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
-    components.DraggableBlock(340, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
-    components.DraggableBlock(380, 300, 'forward', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(550, 80, 'right', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(550, 120, 'right', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(550, 160, 'left', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(550, 200, 'left', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(450, 80, 'forward', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(450, 120, 'forward', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(450, 160, 'forward', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(450, 200, 'forward', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(450, 240, 'forward', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(450, 280, 'forward', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(450, 320, 'forward', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(450, 360, 'forward', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(500, 80, 'forward', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(500, 120, 'forward', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(500, 160, 'forward', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(500, 200, 'forward', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(500, 240, 'forward', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(500, 280, 'forward', this, {width: 25, height: 25}, this.blockArray);
+    components.DraggableBlock(500, 320, 'forward', this, {width: 25, height: 25}, this.blockArray);
 
     //add whenGo button
-    this.whenGo = components.DraggableBlock(250, 100, 'whenGo', this, {width: 25, height: 25}, this.blockArray);
+    this.whenGo = components.DraggableBlock(450, 40, 'whenGo', this, {width: 25, height: 25}, this.blockArray);
 
     this.physics.add.collider(this.player, bushLayer)
     this.physics.add.collider(this.player, topLayer1)
@@ -127,6 +148,10 @@ export default class LevelScene extends Phaser.Scene {
       fontSize: '12px',
 		});
 
+    this.endpt = tilemap.findObject("Objects", obj => obj.name === "end");
+    this.gem = this.add.sprite(this.endpt.x, this.endpt.y, "gem");
+    this.physics.add.existing(this.gem, true);
+    this.physics.add.overlap(this.gem,this.player,this.reachedGoal, function(){}, this);
   }
 
   async readBlocks(layer: Phaser.Tilemaps.TilemapLayer){
@@ -164,14 +189,14 @@ export default class LevelScene extends Phaser.Scene {
 
       if(direction === "forward"){
         if(this.player.angle === 0){
-          var tile = layer.getTileAtWorldXY(this.player.x + 25, this.player.y, true);
+          var tile = layer.getTileAtWorldXY(this.player.x + 32, this.player.y, true);
           if (tile.index > 0) {
             console.log('blocked')
           }
             else {
               this.player.anims.play('char-run-side', true)
               this.player.scaleX = 1
-              this.player.x += 25;            }
+              this.player.x += 32;            }
           }
         else if((this.player.angle === 90) || (this.player.angle === -270)){
           var tile = layer.getTileAtWorldXY(this.player.x, this.player.y + 32, true);
@@ -180,7 +205,7 @@ export default class LevelScene extends Phaser.Scene {
           }
             else {
               this.player.anims.play('char-run-down', true)
-              this.player.y += 25;
+              this.player.y += 32;
             }
         }
         else if(Math.abs(this.player.angle) === 180){
@@ -207,16 +232,22 @@ export default class LevelScene extends Phaser.Scene {
       }
       else if(direction === 'right' && this.player.angle === 0){
         console.log("rotated right")
+        //this.player.rotation += -Math.PI/2;
         this.player.angle += 90;
-        this.player.rotation += -Math.PI/2;
         this.player.anims.play('char-idle-down')
       }
       else if(direction === 'left'){
         console.log("rotated left")
         this.player.anims.play('char-idle-up')
-        //this.fauna.angle -= 90;
+        this.player.angle -= 90;
       } 
     }
     this.player.anims.stop()
+  }
+
+  reachedGoal(){
+    console.log("Reached end");
+    //placeholder for now, just move on to next scene here
+    this.scene.start('WelcomeScene')
   }
 }

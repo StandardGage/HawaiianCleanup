@@ -11,7 +11,7 @@ import GameoverScene from './scenes/GameoverScene'
 
 export default new Phaser.Game({
 	type: Phaser.AUTO,
-	width: 400,
+	width: 600,
 	height: 400,
 	physics: {
 		default: 'arcade',
