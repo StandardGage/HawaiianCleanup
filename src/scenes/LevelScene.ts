@@ -14,7 +14,7 @@ export default class LevelScene extends Phaser.Scene {
   tileSize = 16;
   scoreText!: Phaser.GameObjects.Text
   movesLeft!: Phaser.GameObjects.Text 
-  endpt;
+  endpt!: any;
   gem!: Phaser.GameObjects.Sprite
 
   preload() {
@@ -181,7 +181,8 @@ export default class LevelScene extends Phaser.Scene {
     }
 
     for(let i = 0; i<directions.length; i++){
-      directions[i].list[0].setAlpha(1)
+      let shadow:any = directions[i].list[0]
+      shadow.setAlpha(1)
       let direction = directions[i].name
 
       const sleep = (ms: number | undefined) => new Promise(r => setTimeout(r, ms));

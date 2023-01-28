@@ -24,14 +24,14 @@ export default class WinScene extends Phaser.Scene {
         align: 'center', 
         stroke: '#000000',
         strokeThickness: 6,
-        fontSize: 50
+        fontSize: '50px'
     }).setOrigin(0.5);
     // Player score
     this.add.text(this.centerX, this.centerY, "Score: ", {
         align: 'center', 
         stroke: '#000000',
         strokeThickness: 6,
-        fontSize: 25
+        fontSize: '25px'
     }).setOrigin(0.5);
 
   }

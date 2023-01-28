@@ -5,13 +5,13 @@ export default class components{
     /**
      * standard text style
      */
-    static style:Phaser.GameObjects.TextStyle = {
+    static style:any = {
         stroke: '#00000',
         strokeThickness: 10,
         fontSize: '32px',
     }
 
-    static levelStyle:Phaser.GameObjects.TextStyle = {
+    static levelStyle:any = {
         fontFamily: 'Arial', 
         fontSize: '25px', 
         color: '#ffffff', 
@@ -57,9 +57,9 @@ export default class components{
     * @param {string} image - What background the button has
     * @param {Phaser.Scene} scene - The current scene this button is in (use 'this')
     * @param {string | undefined} new_scene - The scene this button will go to if pressed
-    * @param {boolean | undefined} isDisabled - Whether or not the button is disabled
+    * @param {boolean | undefined} _isDisabled - Whether or not the button is disabled
     */
-    static LevelButton(x:number, y:number, text:string, image:string, scene: Phaser.Scene, new_scene:string | undefined, isDisabled:boolean | undefined) {
+    static LevelButton(x:number, y:number, text:string, image:string, scene: Phaser.Scene, new_scene:string | undefined, _isDisabled:boolean | undefined) {
         var levelButton = scene.add.container(x, y)
         var levelText = scene.add.text(0,0,text, this.levelStyle)
         levelText.setOrigin(0.5,0.5)
@@ -111,9 +111,11 @@ export default class components{
         array.push(draggableBlock)
 
         scene.input.on('drag', function (pointer: any, gameObject: { x: number; y: number; list: Phaser.GameObjects.GameObject[], depth:number}, dragX: number, dragY: number) {
+            pointer
+            let shadow:any = gameObject.list[0]
             gameObject.x = dragX
             gameObject.y = dragY
-            gameObject.list[0].setAlpha(1)
+            shadow.setAlpha(1)
             gameObject.depth = 1
         })
 
