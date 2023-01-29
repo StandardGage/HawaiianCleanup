@@ -26,7 +26,7 @@ export default class WelcomeScene extends Phaser.Scene {
 			align: 'center', 
 			stroke: '#000000',
 			strokeThickness: 6,
-			fontSize: 50
+			fontSize: '50px'
 		}).setOrigin(0.5);
 
 		//add play and instructions button 
