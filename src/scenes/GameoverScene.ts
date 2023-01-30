@@ -22,14 +22,14 @@ export default class GameoverScene extends Phaser.Scene {
         align: 'center', 
         stroke: '#000000',
         strokeThickness: 6,
-        fontSize: 50
+        fontSize: '50px'
     }).setOrigin(0.5);
     // Players Score
     this.add.text(this.centerX, this.centerY, "Score: ", {
         align: 'center', 
         stroke: '#000000',
         strokeThickness: 6,
-        fontSize: 25
+        fontSize: '25px'
     }).setOrigin(0.5);
 
   }
