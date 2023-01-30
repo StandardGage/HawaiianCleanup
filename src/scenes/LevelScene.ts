@@ -232,8 +232,6 @@ export default class LevelScene extends Phaser.Scene {
       shadow.setAlpha(1)
       let direction = directions[i].name
      
-      
-
       const sleep = (ms: number | undefined) => new Promise(r => setTimeout(r, ms));
       await sleep(500);      
       if(direction === "forward"){
