@@ -3,8 +3,6 @@ import components from "../components";
 export var score: number;
 export var scoreText: Phaser.GameObjects.Text;
 
-
-
 export default class LevelScene extends Phaser.Scene {
 
 
