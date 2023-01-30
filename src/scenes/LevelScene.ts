@@ -1,6 +1,8 @@
 import components from "../components";
 
 export var score: number;
+export var scoreText: Phaser.GameObjects.Text;
+
 
 
 export default class LevelScene extends Phaser.Scene {
@@ -23,7 +25,7 @@ export default class LevelScene extends Phaser.Scene {
   endpt!: any;
   gem!: Phaser.GameObjects.Sprite
   moves= 10;
-  score = 0;
+  //score = 0;
 
   preload() {
     this.load.image("tiles", "assets/drawtiles-spaced.png");
@@ -44,6 +46,7 @@ export default class LevelScene extends Phaser.Scene {
   }
 
     create() {
+      this.score = 0;
       this.sound.stopByKey('menumusic');
       var lvl1music = this.sound.add('lvl1music')
       var musicConfig = {
@@ -188,6 +191,8 @@ export default class LevelScene extends Phaser.Scene {
     this.movesLeft.setText("Go Clicked: " + this.moves)
 
     if(this.moves < 0){
+      this.moves = 10;
+      score = this.score;
       this.scene.start('GameoverScene')
     }
 

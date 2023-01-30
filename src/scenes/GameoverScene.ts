@@ -1,4 +1,6 @@
 import components from "../components";
+import {score} from "/src/scenes/LevelScene";
+
 
 export default class GameoverScene extends Phaser.Scene {
   centerX: number = 0;
@@ -18,21 +20,28 @@ export default class GameoverScene extends Phaser.Scene {
     menumusic.play();
     this.add.image(300, 200, "level-select-bkgrd");
     // button takes you back to level select screen
-    components.Button(550, 30, 'X', this, 'WelcomeScene')
+    components.Button(550, 30, "X", this, "WelcomeScene");
     // "Game Over" Text
-    this.add.text(this.centerX, this.centerY - 50, "GAME OVER", {
-        align: 'center', 
-        stroke: '#000000',
+    this.add
+      .text(this.centerX, this.centerY - 50, "GAME OVER", {
+        align: "center",
+        stroke: "#000000",
         strokeThickness: 6,
-        fontSize: '50px'
-    }).setOrigin(0.5);
+        fontSize: "50px",
+      })
+      .setOrigin(0.5);
     // Players Score
-    this.add.text(this.centerX, this.centerY, "Score: ", {
-        align: 'center', 
-        stroke: '#000000',
-        strokeThickness: 6,
-        fontSize: '25px'
-    }).setOrigin(0.5);
 
+    console.log(score);
+    
+
+    this.add
+      .text(this.centerX, this.centerY, "Score: " + score, {
+        align: "center",
+        stroke: "#000000",
+        strokeThickness: 6,
+        fontSize: "25px",
+      })
+      .setOrigin(0.5);
   }
 }
