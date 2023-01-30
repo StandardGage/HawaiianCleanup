@@ -173,7 +173,7 @@ export default class LevelScene extends Phaser.Scene {
       strokeThickness: 10,
       fontSize: '12px',
 		})
-    this.movesLeft = this.add.text(305, 40, 'Go Clicked: ' + this.moves, {
+    this.movesLeft = this.add.text(270, 40, 'Go Clicked: ' + this.moves, {
       stroke: '#00000',
       strokeThickness: 10,
       fontSize: '12px',
