@@ -1,5 +1,8 @@
 import components from "../components";
 
+export var score: number;
+
+
 export default class LevelScene extends Phaser.Scene {
 
 
@@ -8,6 +11,9 @@ export default class LevelScene extends Phaser.Scene {
   }
   private blockArray: Array<Phaser.GameObjects.Container> = new Array();
   private player!: Phaser.Physics.Arcade.Sprite;
+  private plusList: Array<any> = new Array();
+  private minusList: Array<any> = new Array();
+
   
   whenGo!: Phaser.GameObjects.Container
 
@@ -16,6 +22,8 @@ export default class LevelScene extends Phaser.Scene {
   movesLeft!: Phaser.GameObjects.Text 
   endpt!: any;
   gem!: Phaser.GameObjects.Sprite
+  moves= 10;
+  score = 0;
 
   preload() {
     this.load.image("tiles", "assets/drawtiles-spaced.png");
@@ -32,6 +40,8 @@ export default class LevelScene extends Phaser.Scene {
     this.load.audio('lvl1music', 'assets/sounds/space_traveler.ogg')
     this.load.image('gem', 'assets/empty.png')
     this.load.image('background', 'assets/stone2.jpg')
+    this.load.image('trash', 'assets/trash.jpeg')
+    this.load.image('nene', 'assets/nene.jpeg')
   }
 
     create() {
@@ -112,6 +122,24 @@ export default class LevelScene extends Phaser.Scene {
     go.setDisplaySize(60, 34)
     go.setInteractive().on('pointerdown', ()=>this.readBlocks(bushLayer));
 
+    //Adding trash images
+    let trash1 = this.add.image(352, 288, 'trash').setDisplaySize(32, 32);
+    this.plusList.push(trash1);
+    let trash2 = this.add.image(320, 160, 'trash').setDisplaySize(32, 32);
+    this.plusList.push(trash2);
+    let trash3 = this.add.image(224, 64, 'trash').setDisplaySize(32, 32);
+    this.plusList.push(trash3);
+
+    //Adding nature images
+    let nene1 = this.add.image(352, 220, 'nene').setDisplaySize(32, 32);
+    this.minusList.push(nene1);
+    let nene2 = this.add.image(160, 144, 'nene').setDisplaySize(32, 32);
+    this.minusList.push(nene2);
+    let nene3 = this.add.image(240, 236, 'nene').setDisplaySize(32, 32);
+    this.minusList.push(nene3);
+    
+    
+
     // add test draggable blocks
     components.DraggableBlock(550, 80, 'right', this, {width: 25, height: 25}, this.blockArray);
     components.DraggableBlock(550, 120, 'right', this, {width: 25, height: 25}, this.blockArray);
@@ -140,12 +168,12 @@ export default class LevelScene extends Phaser.Scene {
     this.physics.add.collider(this.player, topLayer1)
 
     // add score
-    this.scoreText = this.add.text(310, 16, 'Score: 0', {
+    this.scoreText = this.add.text(310, 16, 'Score: ' + this.score, {
       stroke: '#00000',
       strokeThickness: 10,
       fontSize: '12px',
 		})
-    this.movesLeft = this.add.text(305, 40, 'Moves: 10', {
+    this.movesLeft = this.add.text(305, 40, 'Go Clicked: ' + this.moves, {
       stroke: '#00000',
       strokeThickness: 10,
       fontSize: '12px',
@@ -158,6 +186,14 @@ export default class LevelScene extends Phaser.Scene {
   }
 
   async readBlocks(layer: Phaser.Tilemaps.TilemapLayer){
+    
+    this.moves -= 1
+    this.movesLeft.setText("Go Clicked: " + this.moves)
+
+    if(this.moves < 0){
+      this.scene.start('GameoverScene')
+    }
+
     var index = {x:this.whenGo.x, y:this.whenGo.y}
 
     // get all blocks vertical from whenGo
@@ -187,6 +223,8 @@ export default class LevelScene extends Phaser.Scene {
       let shadow:any = directions[i].list[0]
       shadow.setAlpha(1)
       let direction = directions[i].name
+     
+      
 
       const sleep = (ms: number | undefined) => new Promise(r => setTimeout(r, ms));
       await sleep(500);      
@@ -233,8 +271,27 @@ export default class LevelScene extends Phaser.Scene {
               this.player.y -= 32;
             }
         }
+        for(let i=0; i<this.plusList.length; i++){
+          if(this.checkOverlap(this.player, this.plusList[i])){
+            this.score+=10;
+            this.scoreText.setText("Score: " + this.score)
+            this.plusList[i].destroy();
+            this.plusList.splice(i, 1)
+            console.log(this.score)
+          }
+        }
+        for(let i=0; i<this.minusList.length; i++){
+          if(this.checkOverlap(this.player, this.minusList[i])){
+            this.score-=10;
+            this.scoreText.setText("Score: " + this.score)
+            this.minusList[i].destroy();
+            this.minusList.splice(i, 1)
+            console.log(this.score)
+          }
+        }
       }
-      else if(direction === 'right' && this.player.angle === 0){
+      
+      else if(direction === 'right'){
         console.log("rotated right")
         //this.player.rotation += -Math.PI/2;
         this.player.angle += 90;
@@ -248,6 +305,12 @@ export default class LevelScene extends Phaser.Scene {
     }
     this.player.anims.stop()
   }
+
+  checkOverlap(spriteA: { getBounds: () => any; }, spriteB: { getBounds: () => any; }) {
+    var boundsA = spriteA.getBounds();
+    var boundsB = spriteB.getBounds();
+    return Phaser.Geom.Intersects.RectangleToRectangle(boundsA, boundsB);
+}
 
   reachedGoal(){
     console.log("Reached end");
