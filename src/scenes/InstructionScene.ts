@@ -19,7 +19,7 @@ export default class InstructionScene extends Phaser.Scene {
     components.Button(550, 30, 'X', this, 'WelcomeScene')
 
     // add background image
-    this.add.text(this.centerX, this.centerY, "The goal of this game is to collect all\n the trash and plastic on each level\n and avoiding picking up lava rocks\n and picking flowers. You would move \n around the level by using the\n blocks and putting them in a certain\n order so that you collect all the trash.", {
+    this.add.text(this.centerX, this.centerY, "The goal of this game is to collect all\n the trash and plastic on each level.\n Avoid picking up lava rocks and\n grabbing flowers! Move around\n the level using the blocks, and\n put them in the right order to\n collect all the trash!", {
         align: 'center', 
         stroke: '#000000',
         strokeThickness: 6,

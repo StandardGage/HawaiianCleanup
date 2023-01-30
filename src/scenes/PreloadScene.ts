@@ -15,6 +15,10 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('level-1-bkgrd', '800/800')
         this.load.image('box', 'assets/menus/blankbox.png');
         this.load.image('checkedBox', 'assets/menus/checkbox.png');
+        this.load.image('title', 'assets/menus/font3.png')
+        this.load.image('play', 'assets/menus/playbutton.png')
+        this.load.image('instructions', 'assets/menus/instructions.png')
+        this.load.image('options', 'assets/menus/options.png')
 
         // tiles
         this.load.image("tiles", "assets/drawtiles-spaced.png");
