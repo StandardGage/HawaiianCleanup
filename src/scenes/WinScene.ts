@@ -1,5 +1,5 @@
 import components from "../components";
-import {score} from "/src/scenes/LevelScene";
+import { score } from "./LevelScene";
 
 export default class WinScene extends Phaser.Scene {
   centerX: number = 0;
