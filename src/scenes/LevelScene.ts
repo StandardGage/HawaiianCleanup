@@ -1,5 +1,8 @@
 import components from "../components";
 
+export var score: number;
+
+
 export default class LevelScene extends Phaser.Scene {
 
 
@@ -19,6 +22,7 @@ export default class LevelScene extends Phaser.Scene {
   movesLeft!: Phaser.GameObjects.Text 
   endpt!: any;
   gem!: Phaser.GameObjects.Sprite
+  moves= 10;
   score = 0;
 
   preload() {
@@ -161,12 +165,12 @@ export default class LevelScene extends Phaser.Scene {
     this.physics.add.collider(this.player, topLayer1)
 
     // add score
-    this.scoreText = this.add.text(310, 16, 'Score: 0', {
+    this.scoreText = this.add.text(310, 16, 'Score: ' + this.score, {
       stroke: '#00000',
       strokeThickness: 10,
       fontSize: '12px',
 		})
-    this.movesLeft = this.add.text(305, 40, 'Moves: 10', {
+    this.movesLeft = this.add.text(305, 40, 'Go Clicked: ' + this.moves, {
       stroke: '#00000',
       strokeThickness: 10,
       fontSize: '12px',
@@ -179,6 +183,14 @@ export default class LevelScene extends Phaser.Scene {
   }
 
   async readBlocks(layer: Phaser.Tilemaps.TilemapLayer){
+    
+    this.moves -= 1
+    this.movesLeft.setText("Go Clicked: " + this.moves)
+
+    if(this.moves < 0){
+      this.scene.start('GameoverScene')
+    }
+
     var index = {x:this.whenGo.x, y:this.whenGo.y}
 
     // get all blocks vertical from whenGo
@@ -259,6 +271,7 @@ export default class LevelScene extends Phaser.Scene {
         for(let i=0; i<this.plusList.length; i++){
           if(this.checkOverlap(this.player, this.plusList[i])){
             this.score+=10;
+            this.scoreText.setText("Score: " + this.score)
             this.plusList[i].destroy();
             this.plusList.splice(i, 1)
             console.log(this.score)
@@ -267,6 +280,7 @@ export default class LevelScene extends Phaser.Scene {
         for(let i=0; i<this.minusList.length; i++){
           if(this.checkOverlap(this.player, this.minusList[i])){
             this.score-=10;
+            this.scoreText.setText("Score: " + this.score)
             this.minusList[i].destroy();
             this.minusList.splice(i, 1)
             console.log(this.score)
