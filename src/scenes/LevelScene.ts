@@ -1,7 +1,7 @@
 import components from "../components";
 
 export var score: number;
-export var scoreText: Phaser.GameObjects.Text;
+//export var scoreText: Phaser.GameObjects.Text;
 
 export default class LevelScene extends Phaser.Scene {
 
@@ -370,7 +370,8 @@ export default class LevelScene extends Phaser.Scene {
 
   reachedGoal(){
     console.log("Reached end");
-    //placeholder for now, just move on to next scene here
-    this.scene.start('WinScene')
+    score = this.score;
+    this.moves = 10;
+    this.scene.start('WinScene');
   }
 }
