@@ -373,7 +373,7 @@ export default class LevelScene extends Phaser.Scene {
 
   reachedGoal(){
     console.log("Reached end");
-    //placeholder for now, just move on to next scene here
-    this.scene.start('WelcomeScene')
+    score = this.score;
+    this.scene.start('WinScene')
   }
 }
