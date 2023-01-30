@@ -20,7 +20,8 @@ export default new Phaser.Game({
 			debug: true
 		}
 	},
-	scene: [PreloadScene, WelcomeScene, LevelSelectScene, LevelScene, InstructionScene, WinScene, GameoverScene, OptionsScene],
+	backgroundColor: 0x508587,
+	scene: [PreloadScene, WelcomeScene, LevelSelectScene, LevelScene, InstructionScene, WinScene, GameoverScene],
 	scale: {
 		autoCenter: Phaser.Scale.CENTER_BOTH,
 		mode: Phaser.Scale.FIT,
