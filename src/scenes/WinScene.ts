@@ -1,4 +1,5 @@
 import components from "../components";
+import {score} from "/src/scenes/LevelScene";
 
 export default class WinScene extends Phaser.Scene {
   centerX: number = 0;
@@ -27,7 +28,7 @@ export default class WinScene extends Phaser.Scene {
         fontSize: '50px'
     }).setOrigin(0.5);
     // Player score
-    this.add.text(this.centerX, this.centerY, "Score: ", {
+    this.add.text(this.centerX, this.centerY, "Score: " + score, {
         align: 'center', 
         stroke: '#000000',
         strokeThickness: 6,
