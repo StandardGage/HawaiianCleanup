@@ -31,6 +31,7 @@ export default class LevelScene extends Phaser.Scene {
     this.load.atlas('fauna', 'assets/sprites/fauna.png', 'assets/sprites/fauna.json')
     this.load.audio('lvl1music', 'assets/sounds/space_traveler.ogg')
     this.load.image('gem', 'assets/empty.png')
+    this.load.image('background', 'assets/stone2.jpg')
   }
 
     create() {
@@ -58,6 +59,8 @@ export default class LevelScene extends Phaser.Scene {
     bushLayer.setCollisionByProperty({ collides: true })
     var topLayer1 = tilemap.createLayer('Top', tileset1)
     topLayer1.setCollisionByProperty({ collides: true })
+
+    this.add.image(500, 200, "background");
 
     // setup player
     this.player = this.physics.add.sprite(40, 160, 'fauna', 'walk-down-3.png')
@@ -106,7 +109,7 @@ export default class LevelScene extends Phaser.Scene {
 
     // add go button
     var go = this.add.image(560, 360, 'go')
-    go.setDisplaySize(60,60)
+    go.setDisplaySize(60, 34)
     go.setInteractive().on('pointerdown', ()=>this.readBlocks(bushLayer));
 
     // add test draggable blocks

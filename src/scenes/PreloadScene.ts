@@ -28,7 +28,7 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.atlas('fauna', 'assets/sprites/fauna.png', 'assets/sprites/fauna.json')
 
         // code blocks
-        this.load.image('go', 'assets/GoButton.png')
+        this.load.image('go', 'assets/GoButton2.png')
         this.load.image('whenGo', 'assets/whenGoClicked.png')
         this.load.image('forward', 'assets/Forward.png')
         this.load.image('down', 'assets/Down.png')

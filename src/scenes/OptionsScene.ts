@@ -27,7 +27,7 @@ export default class OptionsScene extends Phaser.Scene {
 
     this.musicOn = true;
     this.soundOn = true;
-    this.text = this.add.text(200, this.centerY - 100, 'Options', { fontSize: '40px' });
+    this.add.image(this.centerX, this.centerY - 100, 'options').setOrigin(0.5,0).setScale(0.4);
     this.musicButton = this.add.image(200, 200, 'checkedBox')
     this.musicButton.setScale(0.1, 0.1);
     this.musicText = this.add.text(250, 190, 'Music Enabled', { fontSize: '24px' });
