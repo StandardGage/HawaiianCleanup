@@ -1,10 +1,12 @@
 import Phaser from 'phaser'
 import components from '../components';
+import Music from '../Music';
 
 export default class WelcomeScene extends Phaser.Scene {
 	
 	centerX: number = 0;
 	centerY: number = 0;
+	bkgSFX:Phaser.Sound.BaseSound;
 	
 	constructor() {
 		super('WelcomeScene')
@@ -16,8 +18,14 @@ export default class WelcomeScene extends Phaser.Scene {
 	}
 
 	create() {
-		var menumusic = this.sound.add('menumusic')
-		menumusic.play()
+		if(!Music.addedOnce){
+            Music.bkgSFX = this.sound.add('menumusic', { loop: true});
+            Music.addedOnce = true;
+        }
+        if(!Music.musicPlaying){
+            Music.bkgSFX.play();
+            Music.musicPlaying = true;
+        }
 
 		// add background image
 		this.add.image(300, 200, 'main-bkgrd');
@@ -34,7 +42,7 @@ export default class WelcomeScene extends Phaser.Scene {
 		components.Button(this.centerX, this.centerY, 'Instructions', this, 'InstructionScene')
 		components.Button(this.centerX, this.centerY + 35, 'Wins Test', this, 'WinScene')
 		components.Button(this.centerX, this.centerY + 70, 'Gameover Test', this, 'GameoverScene')
-
+		components.Button(this.centerX, this.centerY + 105, 'Options Test', this, 'OptionsScene')
 
 	}
 }
