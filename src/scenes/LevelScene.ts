@@ -24,6 +24,7 @@ export default class LevelScene extends Phaser.Scene {
   gem!: Phaser.GameObjects.Sprite
   moves= 10;
   score = 0;
+  isBlocked!: Phaser.GameObjects.Text
 
   preload() {
     this.load.image("tiles", "assets/drawtiles-spaced.png");
@@ -120,6 +121,8 @@ export default class LevelScene extends Phaser.Scene {
     var go = this.add.image(560, 360, 'go')
     go.setDisplaySize(60,60)
     go.setInteractive().on('pointerdown', ()=>this.readBlocks(bushLayer));
+
+    this.isBlocked = this.add.text(0, 0, '', components.style)
 
     //Adding trash images
     let trash1 = this.add.image(352, 288, 'trash').setDisplaySize(32, 32);
@@ -232,8 +235,10 @@ export default class LevelScene extends Phaser.Scene {
           var tile = layer.getTileAtWorldXY(this.player.x + 32, this.player.y, true);
           if (tile.index > 0) {
             console.log('blocked')
+            this.isBlocked.setText('Blocked')
           }
             else {
+              this.isBlocked.setText('')
               this.player.anims.play('char-run-side', true)
               this.player.scaleX = 1
               this.player.x += 32;            }
@@ -242,8 +247,10 @@ export default class LevelScene extends Phaser.Scene {
           var tile = layer.getTileAtWorldXY(this.player.x, this.player.y + 32, true);
           if (tile.index > 0) {
             console.log('blocked')
+            this.isBlocked.setText('Blocked')
           }
             else {
+              this.isBlocked.setText('')
               this.player.anims.play('char-run-down', true)
               this.player.y += 32;
             }
@@ -252,8 +259,10 @@ export default class LevelScene extends Phaser.Scene {
           var tile = layer.getTileAtWorldXY(this.player.x - 32, this.player.y, true);
           if (tile.index > 2) {
             console.log('blocked')
+            this.isBlocked.setText('Blocked')
           }
             else {
+              this.isBlocked.setText('')
               this.player.anims.play('char-run-side', true)
               this.player.scaleX = 1
               this.player.x -= 32;
@@ -263,8 +272,10 @@ export default class LevelScene extends Phaser.Scene {
           var tile = layer.getTileAtWorldXY(this.player.x, this.player.y - 32, true);
           if (tile.index > 0) {
             console.log('blocked')
+            this.isBlocked.setText('Blocked')
           }
             else {
+              this.isBlocked.setText('')
               this.player.anims.play('char-run-up', true)
               this.player.y -= 32;
             }
