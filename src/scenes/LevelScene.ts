@@ -73,6 +73,7 @@ export default class LevelScene extends Phaser.Scene {
     this.player = this.physics.add.sprite(40, 160, 'fauna', 'walk-down-3.png')
     this.player.body.setSize(this.player.width * 0.5, this.player.height * 0.3)
     this.player.body.setOffset(8, 20)
+    
 
     // setup animations
     this.anims.create({
@@ -113,6 +114,7 @@ export default class LevelScene extends Phaser.Scene {
     })
 
     this.player.anims.play('char-idle-side')
+    this.player.name = '0'
 
     // add go button
     var go = this.add.image(560, 360, 'go')
@@ -225,9 +227,8 @@ export default class LevelScene extends Phaser.Scene {
 
       const sleep = (ms: number | undefined) => new Promise(r => setTimeout(r, ms));
       await sleep(500);      
-
       if(direction === "forward"){
-        if(this.player.angle === 0){
+        if(parseInt(this.player.name) === 0){
           var tile = layer.getTileAtWorldXY(this.player.x + 32, this.player.y, true);
           if (tile.index > 0) {
             console.log('blocked')
@@ -237,7 +238,7 @@ export default class LevelScene extends Phaser.Scene {
               this.player.scaleX = 1
               this.player.x += 32;            }
           }
-        else if((this.player.angle === 90) || (this.player.angle === -270)){
+        else if((parseInt(this.player.name) === 90) || (parseInt(this.player.name) === -270)){
           var tile = layer.getTileAtWorldXY(this.player.x, this.player.y + 32, true);
           if (tile.index > 0) {
             console.log('blocked')
@@ -247,7 +248,7 @@ export default class LevelScene extends Phaser.Scene {
               this.player.y += 32;
             }
         }
-        else if(Math.abs(this.player.angle) === 180){
+        else if(Math.abs(parseInt(this.player.name)) === 180){
           var tile = layer.getTileAtWorldXY(this.player.x - 32, this.player.y, true);
           if (tile.index > 2) {
             console.log('blocked')
@@ -258,7 +259,7 @@ export default class LevelScene extends Phaser.Scene {
               this.player.x -= 32;
             }
         }
-        else if((this.player.angle === 270) || (this.player.angle === -90)){
+        else if((parseInt(this.player.name) === 270) || (parseInt(this.player.name) === -90)){
           var tile = layer.getTileAtWorldXY(this.player.x, this.player.y - 32, true);
           if (tile.index > 0) {
             console.log('blocked')
@@ -290,14 +291,59 @@ export default class LevelScene extends Phaser.Scene {
       
       else if(direction === 'right'){
         console.log("rotated right")
+        this.player.name = (parseInt(this.player.name) + 90).toString()
+        if (parseInt(this.player.name) >= 360) {
+          this.player.name = (parseInt(this.player.name) - 360).toString()
+        }
         //this.player.rotation += -Math.PI/2;
-        this.player.angle += 90;
-        this.player.anims.play('char-idle-down')
+        //this.player.angle += 90;
+        console.log(this.player.name)
+        switch (parseInt(this.player.name)) {
+          case 0:
+            this.player.anims.play('char-idle-side')
+            this.player.scaleX = 1
+            this.player.body.offset.x = 8
+            break;
+          case 90:
+            this.player.anims.play('char-idle-down')
+            break;
+          case 180:
+            this.player.anims.play('char-idle-side')
+            this.player.scaleX = -1
+            this.player.body.offset.x = 24
+            break;
+          case 270:
+            this.player.anims.play('char-idle-up')
+          default:
+            break;
+        }
       }
       else if(direction === 'left'){
         console.log("rotated left")
-        this.player.anims.play('char-idle-up')
-        this.player.angle -= 90;
+        this.player.name = (parseInt(this.player.name) - 90).toString()
+        if (parseInt(this.player.name) < 0) {
+          this.player.name = (parseInt(this.player.name) + 360).toString()
+        }
+        //this.player.angle -= 90;
+        switch (parseInt(this.player.name)) {
+          case 0:
+            this.player.anims.play('char-idle-side')
+            this.player.scaleX = 1
+            this.player.body.offset.x = 8
+            break;
+          case 90:
+            this.player.anims.play('char-idle-down')
+            break;
+          case 180:
+            this.player.anims.play('char-idle-side')
+            this.player.scaleX = -1
+            this.player.body.offset.x = 24
+            break;
+          case 270:
+            this.player.anims.play('char-idle-up')
+          default:
+            break;
+        }
       } 
     }
     this.player.anims.stop()
