@@ -40,8 +40,8 @@ export default class LevelScene extends Phaser.Scene {
     this.load.audio('lvl1music', 'assets/sounds/space_traveler.ogg')
     this.load.image('gem', 'assets/empty.png')
     this.load.image('background', 'assets/stone2.jpg')
-    this.load.image('trash', 'assets/trash.jpeg')
-    this.load.image('nene', 'assets/nene.jpeg')
+    this.load.image('trash', 'assets/trash.png')
+    this.load.image('nene', 'assets/nene.png')
   }
 
     create() {
