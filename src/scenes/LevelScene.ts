@@ -25,7 +25,7 @@ export default class LevelScene extends Phaser.Scene {
   endpt!: any;
   gem!: Phaser.GameObjects.Sprite
   moves= 10;
-  //score = 0;
+  score = 0;
 
   preload() {
     this.load.image("tiles", "assets/drawtiles-spaced.png");
@@ -143,8 +143,6 @@ export default class LevelScene extends Phaser.Scene {
     let nene3 = this.add.image(240, 236, 'nene').setDisplaySize(32, 32);
     this.minusList.push(nene3);
     
-    
-
     // add test draggable blocks
     components.DraggableBlock(550, 80, 'right', this, {width: 25, height: 25}, this.blockArray);
     components.DraggableBlock(550, 120, 'right', this, {width: 25, height: 25}, this.blockArray);
@@ -173,7 +171,7 @@ export default class LevelScene extends Phaser.Scene {
     this.physics.add.collider(this.player, topLayer1)
 
     // add score
-    this.scoreText = this.add.text(310, 16, 'Score: ' + this.score, {
+    this.scoreText = this.add.text(300, 16, 'Score: ' + this.score, {
       stroke: '#00000',
       strokeThickness: 10,
       fontSize: '12px',
