@@ -11,6 +11,8 @@ export default class extends Phaser.Scene {
         // add background
         this.add.image(300, 200, 'level-select-bkgrd');
 
+        components.Button(550, 30, 'X', this, 'WelcomeScene')
+
         // add menu button
         components.Button(100, 700, 'Menu', this, 'WelcomeScene')
 

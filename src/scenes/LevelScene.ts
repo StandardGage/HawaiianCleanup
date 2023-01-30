@@ -42,8 +42,9 @@ export default class LevelScene extends Phaser.Scene {
     this.load.atlas('fauna', 'assets/sprites/fauna.png', 'assets/sprites/fauna.json')
     this.load.audio('lvl1music', 'assets/sounds/space_traveler.ogg')
     this.load.image('gem', 'assets/empty.png')
-    this.load.image('trash', 'assets/trash.jpeg')
-    this.load.image('nene', 'assets/nene.jpeg')
+    this.load.image('background', 'assets/stone2.jpg')
+    this.load.image('trash', 'assets/trash.png')
+    this.load.image('nene', 'assets/nene.png')
   }
 
     create() {
@@ -72,6 +73,8 @@ export default class LevelScene extends Phaser.Scene {
     bushLayer.setCollisionByProperty({ collides: true })
     var topLayer1 = tilemap.createLayer('Top', tileset1)
     topLayer1.setCollisionByProperty({ collides: true })
+
+    this.add.image(500, 200, "background");
 
     // setup player
     this.player = this.physics.add.sprite(40, 160, 'fauna', 'walk-down-3.png')
@@ -122,7 +125,7 @@ export default class LevelScene extends Phaser.Scene {
 
     // add go button
     var go = this.add.image(560, 360, 'go')
-    go.setDisplaySize(60,60)
+    go.setDisplaySize(60, 34)
     go.setInteractive().on('pointerdown', ()=>this.readBlocks(bushLayer));
 
     this.isBlocked = this.add.text(0, 0, '', components.style)
@@ -143,8 +146,6 @@ export default class LevelScene extends Phaser.Scene {
     let nene3 = this.add.image(240, 236, 'nene').setDisplaySize(32, 32);
     this.minusList.push(nene3);
     
-    
-
     // add test draggable blocks
     components.DraggableBlock(550, 80, 'right', this, {width: 25, height: 25}, this.blockArray);
     components.DraggableBlock(550, 120, 'right', this, {width: 25, height: 25}, this.blockArray);
@@ -173,12 +174,12 @@ export default class LevelScene extends Phaser.Scene {
     this.physics.add.collider(this.player, topLayer1)
 
     // add score
-    this.scoreText = this.add.text(310, 16, 'Score: ' + this.score, {
+    this.scoreText = this.add.text(300, 16, 'Score: ' + this.score, {
       stroke: '#00000',
       strokeThickness: 10,
       fontSize: '12px',
 		})
-    this.movesLeft = this.add.text(305, 40, 'Go Clicked: ' + this.moves, {
+    this.movesLeft = this.add.text(270, 40, 'Go Clicked: ' + this.moves, {
       stroke: '#00000',
       strokeThickness: 10,
       fontSize: '12px',
@@ -231,8 +232,6 @@ export default class LevelScene extends Phaser.Scene {
       shadow.setAlpha(1)
       let direction = directions[i].name
      
-      
-
       const sleep = (ms: number | undefined) => new Promise(r => setTimeout(r, ms));
       await sleep(500);      
       if(direction === "forward"){
@@ -374,6 +373,6 @@ export default class LevelScene extends Phaser.Scene {
   reachedGoal(){
     console.log("Reached end");
     //placeholder for now, just move on to next scene here
-    this.scene.start('WelcomeScene')
+    this.scene.start('WinScene')
   }
 }

@@ -13,6 +13,12 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('level-select-bkgrd', 'assets/menus/volcano3.jpg')
         this.load.image('level-button-bkgrd', 'assets/menus/brick.jpg')
         this.load.image('level-1-bkgrd', '800/800')
+        this.load.image('box', 'assets/menus/blankbox.png');
+        this.load.image('checkedBox', 'assets/menus/checkbox.png');
+        this.load.image('title', 'assets/menus/font3.png')
+        this.load.image('play', 'assets/menus/playbutton.png')
+        this.load.image('instructions', 'assets/menus/instructions.png')
+        this.load.image('options', 'assets/menus/options.png')
 
         // tiles
         this.load.image("tiles", "assets/drawtiles-spaced.png");
@@ -22,7 +28,7 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.atlas('fauna', 'assets/sprites/fauna.png', 'assets/sprites/fauna.json')
 
         // code blocks
-        this.load.image('go', 'assets/GoButton.png')
+        this.load.image('go', 'assets/GoButton2.png')
         this.load.image('whenGo', 'assets/whenGoClicked.png')
         this.load.image('forward', 'assets/Forward.png')
         this.load.image('down', 'assets/Down.png')

@@ -15,8 +15,6 @@ export default class WinScene extends Phaser.Scene {
   }
 
   create() {
-    var menumusic = this.sound.add("menumusic");
-    menumusic.play();
     this.add.image(300, 200, "level-select-bkgrd");
     // button takes you back to level select screen
     components.Button(550, 30, 'X', this, 'WelcomeScene')
